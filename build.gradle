@@ -5,6 +5,7 @@ buildscript {
     }
     dependencies {
         classpath "io.realm:realm-gradle-plugin:10.11.1"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.6.0-alpha08"
     }
 }
 
