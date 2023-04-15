@@ -50,7 +50,11 @@ class ProfileFragment : Fragment() {
             val intent = Intent(activity, SignInActivity::class.java)
             startActivity(intent)
         })
-
+        val btnNewCampsite = view.findViewById<Button>(R.id.btnNewCampsite)
+        btnNewCampsite.setOnClickListener {
+            val intent = Intent(activity, CreateCampsiteActivity::class.java)
+            startActivity(intent)
+        }
         return view
     }
 
