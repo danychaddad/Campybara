@@ -76,12 +76,6 @@ class SignUpActivity : AppCompatActivity() {
             }
         } else {
             Toast.makeText(this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT).show()
-            binding.button.isClickable = true
-            binding.username.isEnabled = true
-            binding.emailEt.isEnabled = true
-            binding.passET.isEnabled = true
-            binding.confirmPassEt.isEnabled = true
-            binding.selectPhoto.isEnabled = true
         }
     }
 
