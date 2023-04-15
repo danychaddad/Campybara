@@ -1,17 +1,10 @@
 package com.shaygang.campybara
 
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
-import com.shaygang.campybara.databinding.ActivitySignUpBinding
-import com.shaygang.campybara.databinding.FragmentProfileBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,23 +28,12 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private lateinit var binding: FragmentProfileBinding
-    private lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProfileBinding.inflate(layoutInflater)
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        firebaseAuth = FirebaseAuth.getInstance()
-        val btnSignOut = view.findViewById<Button>(R.id.btnSignOut)
-        btnSignOut.setOnClickListener(View.OnClickListener {
-            firebaseAuth.signOut()
-            val intent = Intent(activity, SignInActivity::class.java)
-            startActivity(intent)
-        })
-
-        return view
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     companion object {
