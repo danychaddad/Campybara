@@ -57,3 +57,7 @@ class HomeFragment : Fragment() {
             }
     }
 }
+
+class CampsiteItem {
+//    val campsiteName : String
+}

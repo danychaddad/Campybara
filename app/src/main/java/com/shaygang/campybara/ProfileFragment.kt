@@ -1,15 +1,13 @@
 package com.shaygang.campybara
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.shaygang.campybara.databinding.FragmentProfileBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -42,12 +40,17 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val btnNewCampsite = view?.findViewById<Button>(R.id.btnNewCampsite)
-        btnNewCampsite.setOnClickListener {
+
+        return inflater.inflate(R.layout.fragment_profile, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.findViewById<Button>(R.id.btnNewCampsite)?.setOnClickListener {
             val intent = Intent(activity, CreateCampsiteActivity::class.java)
             startActivity(intent)
         }
-        val name = view?.findViewById<TextView>(R.id.name)
+        val name = view.findViewById<TextView>(R.id.name)
 
         arguments?.let {
             val data = it.getString("userName")
@@ -56,9 +59,7 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
-
     companion object {
         /**
          * Use this factory method to create a new instance of
