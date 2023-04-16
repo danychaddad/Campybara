@@ -4,7 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.shaygang.campybara.databinding.FragmentProfileBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -19,6 +25,7 @@ private const val ARG_PARAM2 = "param2"
 class ProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding : FragmentProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +40,15 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val name = view?.findViewById<TextView>(R.id.name)
+
+        arguments?.let {
+            val data = it.getString("userName")
+            if (name != null) {
+                name.text = data
+            }
+        }
+
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 

@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.shaygang.campybara.databinding.ActivitySignInBinding
+import com.shaygang.campybara.databinding.FragmentProfileBinding
 
 class SignInActivity : AppCompatActivity() {
 
