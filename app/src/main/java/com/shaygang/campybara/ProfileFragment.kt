@@ -41,12 +41,6 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val btnNewCampsite = view?.findViewById<Button>(R.id.btnNewCampsite)
-        btnNewCampsite.setOnClickListener {
-            val intent = Intent(activity, CreateCampsiteActivity::class.java)
-            startActivity(intent)
-        }
         val name = view?.findViewById<TextView>(R.id.name)
 
         arguments?.let {

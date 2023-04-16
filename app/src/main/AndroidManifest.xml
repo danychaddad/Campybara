@@ -12,25 +12,22 @@
         android:theme="@style/Theme.Campybara"
         tools:targetApi="31">
         <activity
-            android:name=".CreateCampsiteActivity"
-            android:exported="false" />
-        <activity
             android:name=".SignInActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".SignUpActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>
