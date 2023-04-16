@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "359577774143",
+    "firebase_url": "https://campybara-f185f-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "campybara-f185f",
+    "storage_bucket": "campybara-f185f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359577774143:android:5706d53512cf447c6e708a",
+        "android_client_info": {
+          "package_name": "com.shaygang.campybara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359577774143-cr60oimenhvpac04m0e92589pa9m856g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlk975TS7cNaXkilte96FElPc3mc_74GA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359577774143-cr60oimenhvpac04m0e92589pa9m856g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
