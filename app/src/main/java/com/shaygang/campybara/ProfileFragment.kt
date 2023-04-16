@@ -1,16 +1,15 @@
 package com.shaygang.campybara
 
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.ktx.Firebase
-import com.shaygang.campybara.databinding.ActivitySignUpBinding
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.shaygang.campybara.databinding.FragmentProfileBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -26,6 +25,7 @@ private const val ARG_PARAM2 = "param2"
 class ProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding : FragmentProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,29 +33,30 @@ class ProfileFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
-    private lateinit var binding: FragmentProfileBinding
-    private lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProfileBinding.inflate(layoutInflater)
-        val view = inflater.inflate(R.layout.fragment_profile, container, false)
-        firebaseAuth = FirebaseAuth.getInstance()
-        val btnSignOut = view.findViewById<Button>(R.id.btnSignOut)
-        btnSignOut.setOnClickListener(View.OnClickListener {
-            firebaseAuth.signOut()
-            val intent = Intent(activity, SignInActivity::class.java)
-            startActivity(intent)
-        })
-        val btnNewCampsite = view.findViewById<Button>(R.id.btnNewCampsite)
+
+        val btnNewCampsite = view?.findViewById<Button>(R.id.btnNewCampsite)
         btnNewCampsite.setOnClickListener {
             val intent = Intent(activity, CreateCampsiteActivity::class.java)
             startActivity(intent)
         }
-        return view
+        val name = view?.findViewById<TextView>(R.id.name)
+
+        arguments?.let {
+            val data = it.getString("userName")
+            if (name != null) {
+                name.text = data
+            }
+        }
+
+        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     companion object {
