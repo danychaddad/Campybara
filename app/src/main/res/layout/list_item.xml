@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/campsiteImage"
+        android:layout_width="0dp"
+        android:layout_height="183dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:background="#C1C1C1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/campy" />
+
+    <TextView
+        android:id="@+id/campsiteName"
+        android:layout_width="0dp"
+        android:layout_height="43dp"
+        android:text="El maisone del Capy"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/campsiteImage"
+        app:layout_constraintStart_toStartOf="@+id/campsiteImage"
+        app:layout_constraintTop_toBottomOf="@+id/campsiteImage" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/campsiteName"
+        android:background="@color/beige"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
