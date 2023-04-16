@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Campybara" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#00FF21</item>
-        <item name="colorPrimaryVariant">#00FF21</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>

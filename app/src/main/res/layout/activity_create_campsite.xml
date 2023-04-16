@@ -7,14 +7,37 @@
     android:background="@color/beige"
     tools:context=".CreateCampsiteActivity">
 
+    <Button
+        android:id="@+id/selectPhoto"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/rounded_select_photo"
+        android:text="Select Photo"
+        app:layout_constraintBottom_toTopOf="@+id/usernameLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/selectPhotoView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/selectPhoto"
+        app:layout_constraintEnd_toEndOf="@+id/selectPhoto"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/selectPhoto"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/csNameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/selectPhotoView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/csNameET"
@@ -40,29 +63,30 @@
             android:hint="Campsite Description" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/csCapET"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/csCapLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:ems="10"
-        android:inputType="number"
-        android:numeric="integer"
-        android:singleLine="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/csDescLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/csDescLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/csCapET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Campsite Capacity"
+            android:numeric="integer" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/confirmBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:text="confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/csCapET" />
+        app:layout_constraintTop_toBottomOf="@+id/csCapLayout" />
 
     <ImageButton
         android:id="@+id/btnExit"
