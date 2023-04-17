@@ -53,8 +53,8 @@ class SignInActivity : AppCompatActivity() {
         binding.resetPassBtn.setOnClickListener {
             val email = binding.emailEt.text.toString()
             if (email.isNotEmpty()) {
-                FirebaseAuth.getInstance().setLanguageCode("en") // Set to English
-                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                firebaseAuth.setLanguageCode("en") // Set to English
+                firebaseAuth.sendPasswordResetEmail(email)
                 Toast.makeText(this, "Sent password reset email!", Toast.LENGTH_SHORT).show()
             }
         }

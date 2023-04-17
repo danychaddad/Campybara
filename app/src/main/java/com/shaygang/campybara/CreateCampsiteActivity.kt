@@ -72,6 +72,8 @@ class CreateCampsiteActivity : AppCompatActivity() {
                 .addOnFailureListener {
                     Log.d("CreateCampsiteActivity", "Image could not be uploaded !!")
                 }
+        } else {
+            confirmCampsiteCreation("gs://campybara-f185f.appspot.com/images_campsite/campy.jpg")
         }
     }
     private fun confirmCampsiteCreation(imageUrl: String) {

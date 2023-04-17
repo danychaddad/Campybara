@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 class CampsiteAdapter (private val campsiteList: ArrayList<Campsites>) : RecyclerView.Adapter<CampsiteAdapter.CampsiteViewHolder>() {
 
@@ -21,7 +22,7 @@ class CampsiteAdapter (private val campsiteList: ArrayList<Campsites>) : Recycle
 
     override fun onBindViewHolder(holder: CampsiteViewHolder, position: Int) {
         val currentItem = campsiteList[position]
-        holder.campsiteImage.setImageResource(currentItem.campsiteImage)
+        Glide.with(holder.itemView).load(currentItem.campsiteImageURL).into(holder.campsiteImage)
         holder.campsiteName.text = currentItem.campsiteName
     }
 
