@@ -1,14 +1,15 @@
 package com.shaygang.campybara
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.shaygang.campybara.databinding.FragmentProfileBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,7 +24,9 @@ private const val ARG_PARAM2 = "param2"
 class ProfileFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var binding : FragmentProfileBinding
+    private lateinit var databaseRef : DatabaseReference
+    private lateinit var user : FirebaseUser
+    private var userName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +34,10 @@ class ProfileFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
+        val name = view?.findViewById<TextView>(R.id.name)
+        if (name != null) {
+            name.text = userName
+        }
     }
 
 
@@ -39,27 +45,28 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
-        return inflater.inflate(R.layout.fragment_profile, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.findViewById<Button>(R.id.btnNewCampsite)?.setOnClickListener {
-            val intent = Intent(activity, CreateCampsiteActivity::class.java)
-            startActivity(intent)
-        }
-        val name = view.findViewById<TextView>(R.id.name)
-
-        arguments?.let {
-            val data = it.getString("userName")
-            if (name != null) {
-                name.text = data
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        val name = view?.findViewById<TextView>(R.id.name)
+        user = FirebaseAuth.getInstance().currentUser!!
+        databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
+        if (userName == null) {
+            databaseRef.get().addOnCompleteListener {
+                if (it.isSuccessful) {
+                    if (it.result.exists()) {
+                        val dataSnapshot = it.result
+                        userName = dataSnapshot.child("username").value.toString()
+                        if (name != null) {
+                            name.text = userName
+                        }
+                    }
+                }
             }
         }
 
+
+        return view
     }
+
     companion object {
         /**
          * Use this factory method to create a new instance of
