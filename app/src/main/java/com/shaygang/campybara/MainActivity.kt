@@ -5,16 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.shaygang.campybara.databinding.FragmentProfileBinding
 
 // mongodb
 // username : application
@@ -23,8 +19,6 @@ import com.shaygang.campybara.databinding.FragmentProfileBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var databaseRef : DatabaseReference
-    private lateinit var firebaseDatabase: FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,30 +30,6 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        firebaseDatabase = FirebaseDatabase.getInstance()
-        databaseRef = firebaseDatabase.getReference("users")
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-        if (uid != null) {
-            getData(uid)
-        } else { }
-    }
-
-    private fun getData(uid: String) {
-        databaseRef.child(uid).get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                if (it.result.exists()) {
-                    val dataSnapshot = it.result
-                    val userName = dataSnapshot.child("username").value.toString()
-
-                    val bundle = Bundle()
-                    bundle.putString("userName", userName)
-
-                    val profileFragment = ProfileFragment()
-                    profileFragment.arguments = bundle
-                }
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
