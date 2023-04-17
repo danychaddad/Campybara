@@ -3,4 +3,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
+    <string name="sign_in">Sign In</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="type_your_email">Type Your Email</string>
+    <string name="type_your_password">Type Your Password</string>
+    <string name="not_registered_yet_sign_up">Not Registered Yet , Sign Up !</string>
+    <string name="campybara_logo">Campybara Logo</string>
 </resources>
