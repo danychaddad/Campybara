@@ -1,6 +1,7 @@
 package com.shaygang.campybara
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.shaygang.campybara.databinding.ActivityCreateCampsiteBinding
+import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.lang.Integer.parseInt
 import java.util.*
@@ -62,8 +64,17 @@ class CreateCampsiteActivity : AppCompatActivity() {
     private fun uploadImageToFirebaseStorage() {
         if (imageUri != null) {
             val filename = UUID.randomUUID().toString()
-            val ref = FirebaseStorage.getInstance().getReference("/images_campsite/$filename")
-            ref.putFile(imageUri!!)
+            val ref = FirebaseStorage.getInstance().getReference("/images_campsite/${filename}.jpg")
+
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+
+            val compressedBitmap = Bitmap.createScaledBitmap(bitmap, 640, 480, true)
+
+            val baos = ByteArrayOutputStream()
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos)
+            val data = baos.toByteArray()
+
+            ref.putBytes(data)
                 .addOnSuccessListener {
                     ref.downloadUrl.addOnSuccessListener {
                         confirmCampsiteCreation(it.toString())

@@ -26,10 +26,7 @@ class ProfileFragment : Fragment() {
 
     private var selectedPhotoUri: Uri? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
 
     override fun onCreateView(
@@ -45,6 +42,11 @@ class ProfileFragment : Fragment() {
         val dateOfBirthField = view?.findViewById<TextView>(R.id.dateOfBirth)
         val photoField = view?.findViewById<Button>(R.id.updatePhoto)
         val photoView = view?.findViewById<ImageView>(R.id.updatePhotoView)
+
+        view.findViewById<Button>(R.id.btnNewCampsite)?.setOnClickListener {
+            val intent = Intent(activity, CreateCampsiteActivity::class.java)
+            startActivity(intent)
+        }
 
         firstNameField?.text = firstName
         lastNameField?.text = lastName
@@ -74,7 +76,7 @@ class ProfileFragment : Fragment() {
                         if (firstNameField?.text.toString().isNotEmpty() && lastNameField?.text.toString()
                                 .isNotEmpty() && phoneNbField?.text.toString().isNotEmpty()
                         ) {
-                            uploadImageToFirebaseStorage(firstNameField, lastNameField, phoneNbField)
+                            uploadImageToFirebaseStorage(firstNameField?.text.toString(), lastNameField?.text.toString(), phoneNbField?.text.toString())
                         } else {
                             firstNameField?.text = firstName
                             lastNameField?.text = lastName
@@ -115,7 +117,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun uploadImageToFirebaseStorage(firstNameField: TextView?, lastNameField: TextView?, phoneNbField: TextView?) {
+    private fun uploadImageToFirebaseStorage(firstNameField: String, lastNameField: String, phoneNbField: String) {
         if (selectedPhotoUri != null) {
             val filename = UUID.randomUUID().toString()
             val ref = FirebaseStorage.getInstance().getReference("/images_profile/${filename}.jpg")
@@ -132,7 +134,7 @@ class ProfileFragment : Fragment() {
                 .addOnSuccessListener {
                     ref.downloadUrl.addOnSuccessListener {
                         profileImageUrl?.let { it1 -> deleteOldImageFromFirebaseStorage(it1) }
-                        updateProfile(firstNameField?.text.toString(), lastNameField?.text.toString(), phoneNbField?.text.toString(), it.toString())
+                        updateProfile(firstNameField, lastNameField, phoneNbField, it.toString())
                     }
                 }
                 .addOnFailureListener {

@@ -44,8 +44,6 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener {
             performRegister()
-            val intent = Intent(this, SignInActivity::class.java)
-            startActivity(intent)
         }
 
         binding.dateOfBirth.setOnClickListener {
@@ -62,9 +60,15 @@ class SignUpActivity : AppCompatActivity() {
 
     }
 
+    private fun exitSignUpActivity() {
+        firebaseAuth.signOut()
+        val intent = Intent(this, SignInActivity::class.java)
+        startActivity(intent)
+    }
+
     private fun updateDateOfBirth(myCalendar: Calendar) {
         val dateFormat = "dd-MM-yyyy"
-        val sdf = SimpleDateFormat(dateFormat, Locale.US)
+        val sdf = SimpleDateFormat(dateFormat, Locale.UK)
         binding.dateOfBirth.setText(sdf.format(myCalendar.time))
     }
 
@@ -145,6 +149,7 @@ class SignUpActivity : AppCompatActivity() {
         ref.child(uid).setValue(user)
             .addOnSuccessListener {
                 Toast.makeText(this, "Sign Up Successful !!", Toast.LENGTH_SHORT).show()
+                exitSignUpActivity()
             }
             .addOnFailureListener {
                 Toast.makeText(this, "User not saved in database !!", Toast.LENGTH_SHORT).show()
