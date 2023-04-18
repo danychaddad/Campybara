@@ -35,7 +35,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.781"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/selectPhoto">
+                    app:layout_constraintTop_toBottomOf="@+id/updatePhoto">
 
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -100,17 +100,17 @@
                     app:layout_constraintTop_toBottomOf="@+id/emailLayout" />
 
                 <Button
-                    android:id="@+id/selectPhoto"
+                    android:id="@+id/updatePhoto"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:background="@drawable/rounded_select_photo"
-                    app:layout_constraintBottom_toBottomOf="@+id/selectPhotoView"
-                    app:layout_constraintEnd_toEndOf="@+id/selectPhotoView"
-                    app:layout_constraintStart_toStartOf="@+id/selectPhotoView"
-                    app:layout_constraintTop_toTopOf="@+id/selectPhotoView" />
+                    app:layout_constraintBottom_toBottomOf="@+id/updatePhotoView"
+                    app:layout_constraintEnd_toEndOf="@+id/updatePhotoView"
+                    app:layout_constraintStart_toStartOf="@+id/updatePhotoView"
+                    app:layout_constraintTop_toTopOf="@+id/updatePhotoView" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/selectPhotoView"
+                    android:id="@+id/updatePhotoView"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="50dp"

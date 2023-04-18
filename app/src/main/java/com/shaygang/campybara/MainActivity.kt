@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
         user = FirebaseAuth.getInstance().currentUser!!
         databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
-        if (firstName == null || lastName == null || email == null || phoneNb == null || dateOfBirth == null) {
+        if (firstName == null || lastName == null || email == null || phoneNb == null || dateOfBirth == null || profileImageUrl == null) {
             databaseRef.get().addOnCompleteListener { res ->
                 if (res.isSuccessful) {
                     if (res.result.exists()) {
