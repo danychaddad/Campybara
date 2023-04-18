@@ -5,57 +5,56 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.shaygang.campybara.databinding.FragmentProfileBinding
 
 // mongodb
 // username : application
 // password : fd2mZeDzVQ4rPvNY
 
+var firstName: String? = null
+var lastName: String? = null
+var email: String? = null
+var phoneNb: String? = null
+var dateOfBirth: String? = null
+var profileImageUrl: String? = null
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var databaseRef : DatabaseReference
-    private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var user : FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navController = findNavController(R.id.fragmentContainerView)
         bottomNavigationView.setupWithNavController(navController)
+
         supportActionBar?.setDisplayShowHomeEnabled(true)
-        firebaseDatabase = FirebaseDatabase.getInstance()
-        databaseRef = firebaseDatabase.getReference("users")
-        val uid = FirebaseAuth.getInstance().currentUser?.uid
-        if (uid != null) {
-            getData(uid)
-        } else { }
-    }
 
-    private fun getData(uid: String) {
-        databaseRef.child(uid).get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                if (it.result.exists()) {
-                    val dataSnapshot = it.result
-                    val userName = dataSnapshot.child("username").value.toString()
-
-                    val bundle = Bundle()
-                    bundle.putString("userName", userName)
-
-                    val profileFragment = ProfileFragment()
-                    profileFragment.arguments = bundle
+        user = FirebaseAuth.getInstance().currentUser!!
+        databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
+        if (firstName == null || lastName == null || email == null || phoneNb == null || dateOfBirth == null || profileImageUrl == null) {
+            databaseRef.get().addOnCompleteListener { res ->
+                if (res.isSuccessful) {
+                    if (res.result.exists()) {
+                        val dataSnapshot = res.result
+                        firstName = dataSnapshot.child("firstName").value.toString()
+                        lastName = dataSnapshot.child("lastName").value.toString()
+                        email = dataSnapshot.child("email").value.toString()
+                        phoneNb = dataSnapshot.child("phoneNb").value.toString()
+                        dateOfBirth = dataSnapshot.child("dateOfBirth").value.toString()
+                        profileImageUrl = dataSnapshot.child("profileImageUrl").value.toString()
+                    }
                 }
             }
         }

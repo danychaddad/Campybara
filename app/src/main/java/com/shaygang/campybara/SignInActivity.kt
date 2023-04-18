@@ -4,18 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.shaygang.campybara.databinding.ActivitySignInBinding
-import com.shaygang.campybara.databinding.FragmentProfileBinding
 
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var databaseRef : DatabaseReference
+    private lateinit var user : FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +34,22 @@ class SignInActivity : AppCompatActivity() {
             val pass = binding.passET.text.toString()
 
             if (email.isNotEmpty() && pass.isNotEmpty()) {
-
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Toast.makeText(this, "Welcome $email", Toast.LENGTH_SHORT).show()
+                        user = FirebaseAuth.getInstance().currentUser!!
+                        databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
+                        databaseRef.get().addOnCompleteListener {res ->
+                            if (res.isSuccessful) {
+                                if (res.result.exists()) {
+                                    val dataSnapshot = res.result
+                                    val firstName = dataSnapshot.child("firstName").value.toString()
+                                    val lastName = dataSnapshot.child("lastName").value.toString()
+
+                                    Toast.makeText(this, "Welcome $firstName $lastName !!", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     } else {
@@ -53,9 +65,15 @@ class SignInActivity : AppCompatActivity() {
         binding.resetPassBtn.setOnClickListener {
             val email = binding.emailEt.text.toString()
             if (email.isNotEmpty()) {
-                firebaseAuth.setLanguageCode("en") // Set to English
-                firebaseAuth.sendPasswordResetEmail(email)
-                Toast.makeText(this, "Sent password reset email!", Toast.LENGTH_SHORT).show()
+                FirebaseAuth.getInstance().setLanguageCode("en") // Set to English
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Sent password reset email !!", Toast.LENGTH_SHORT).show()
+                    }.addOnFailureListener {
+                        Toast.makeText(this, "Invalid email address !!", Toast.LENGTH_SHORT).show()
+                    }
+            } else {
+                Toast.makeText(this, "Insert email address !!", Toast.LENGTH_SHORT).show()
             }
         }
     }
