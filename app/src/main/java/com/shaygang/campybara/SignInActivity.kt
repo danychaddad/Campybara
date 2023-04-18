@@ -54,7 +54,6 @@ class SignInActivity : AppCompatActivity() {
                         startActivity(intent)
                     } else {
                         Toast.makeText(this, "Sign In Unsuccessful !!", Toast.LENGTH_SHORT).show()
-
                     }
                 }
             } else {

@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        super.onStart()
         user = FirebaseAuth.getInstance().currentUser!!
         databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
         if (firstName == null || lastName == null || email == null || phoneNb == null || dateOfBirth == null || profileImageUrl == null) {
@@ -60,6 +61,28 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        user = FirebaseAuth.getInstance().currentUser!!
+        databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
+        if (firstName == null || lastName == null || email == null || phoneNb == null || dateOfBirth == null || profileImageUrl == null) {
+            databaseRef.get().addOnCompleteListener { res ->
+                if (res.isSuccessful) {
+                    if (res.result.exists()) {
+                        val dataSnapshot = res.result
+                        firstName = dataSnapshot.child("firstName").value.toString()
+                        lastName = dataSnapshot.child("lastName").value.toString()
+                        email = dataSnapshot.child("email").value.toString()
+                        phoneNb = dataSnapshot.child("phoneNb").value.toString()
+                        dateOfBirth = dataSnapshot.child("dateOfBirth").value.toString()
+                        profileImageUrl = dataSnapshot.child("profileImageUrl").value.toString()
+                    }
+                }
+            }
+        }
+    }
+
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.add("Sign Out")
         return super.onCreateOptionsMenu(menu)
@@ -71,6 +94,13 @@ class MainActivity : AppCompatActivity() {
                 .setMessage("Are you sure?")
                 .setNegativeButton("No") { _, _ -> }
                 .setPositiveButton("Yes") { _, _ ->
+                    firstName = null
+                    lastName = null
+                    email = null
+                    phoneNb = null
+                    dateOfBirth = null
+                    profileImageUrl = null
+
                     firebaseAuth = FirebaseAuth.getInstance()
                     firebaseAuth.signOut()
                     val intent = Intent(this, SignInActivity::class.java)

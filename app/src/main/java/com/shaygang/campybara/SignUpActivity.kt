@@ -3,6 +3,7 @@ package com.shaygang.campybara
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.shaygang.campybara.databinding.ActivitySignUpBinding
+import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -106,15 +108,24 @@ class SignUpActivity : AppCompatActivity() {
     private fun uploadImageToFirebaseStorage() {
         if (selectedPhotoUri != null) {
             val filename = UUID.randomUUID().toString()
-            val ref = FirebaseStorage.getInstance().getReference("/images_profile/$filename")
-            ref.putFile(selectedPhotoUri!!)
+            val ref = FirebaseStorage.getInstance().getReference("/images_profile/${filename}.jpg")
+
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedPhotoUri)
+
+            val compressedBitmap = Bitmap.createScaledBitmap(bitmap, 640, 480, true)
+
+            val baos = ByteArrayOutputStream()
+            compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos)
+            val data = baos.toByteArray()
+
+            ref.putBytes(data)
                 .addOnSuccessListener {
                     ref.downloadUrl.addOnSuccessListener {
                         saveUserToFirebaseDatabase(it.toString())
                     }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Image could not be uploaded !!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Failed to upload image!", Toast.LENGTH_SHORT).show()
                 }
         }
     }
