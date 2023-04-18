@@ -5,12 +5,17 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.shaygang.campybara.databinding.ActivitySignInBinding
 
 class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var databaseRef : DatabaseReference
+    private lateinit var user : FirebaseUser
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +34,22 @@ class SignInActivity : AppCompatActivity() {
             val pass = binding.passET.text.toString()
 
             if (email.isNotEmpty() && pass.isNotEmpty()) {
-
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Toast.makeText(this, "Welcome $email", Toast.LENGTH_SHORT).show()
+                        user = FirebaseAuth.getInstance().currentUser!!
+                        databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
+                        databaseRef.get().addOnCompleteListener {res ->
+                            if (res.isSuccessful) {
+                                if (res.result.exists()) {
+                                    val dataSnapshot = res.result
+                                    val firstName = dataSnapshot.child("firstName").value.toString()
+                                    val lastName = dataSnapshot.child("lastName").value.toString()
+
+                                    Toast.makeText(this, "Welcome $firstName $lastName !!", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                     } else {
