@@ -50,7 +50,7 @@ class SignUpActivity : AppCompatActivity() {
             val myCalendar = Calendar.getInstance()
             val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 myCalendar.set(Calendar.YEAR, year)
-                myCalendar.set(Calendar.MONDAY, month)
+                myCalendar.set(Calendar.MONTH, month)
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 updateDateOfBirth(myCalendar)
             }
@@ -61,7 +61,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun updateDateOfBirth(myCalendar: Calendar) {
-        val dateFormat = "dd-mm-yyyy"
+        val dateFormat = "dd-MM-yyyy"
         val sdf = SimpleDateFormat(dateFormat, Locale.US)
         binding.dateOfBirth.setText(sdf.format(myCalendar.time))
     }
