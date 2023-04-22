@@ -22,12 +22,20 @@ class CampsiteAdapter (private val campsiteList: ArrayList<Campsites>) : Recycle
 
     override fun onBindViewHolder(holder: CampsiteViewHolder, position: Int) {
         val currentItem = campsiteList[position]
-        Glide.with(holder.itemView).load(currentItem.campsiteImageURL).into(holder.campsiteImage)
+        Glide.with(holder.itemView).load(currentItem.campsiteImageURL).placeholder(R.drawable.capy_loading_image).into(holder.campsiteImage)
         holder.campsiteName.text = currentItem.campsiteName
     }
 
-    class CampsiteViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
+    class CampsiteViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val campsiteImage : ImageView = itemView.findViewById(R.id.campsiteImage)
         val campsiteName : TextView = itemView.findViewById(R.id.campsiteName)
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(p0: View?) {
+
+        }
+
     }
 }
