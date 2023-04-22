@@ -175,4 +175,28 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(context, "Could Not Update Profile !!", Toast.LENGTH_SHORT).show()
             }
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        val firstNameField = view?.findViewById<TextView>(R.id.firstName)
+        val lastNameField = view?.findViewById<TextView>(R.id.lastName)
+        val emailField = view?.findViewById<TextView>(R.id.emailEt)
+        val phoneNbField = view?.findViewById<TextView>(R.id.phoneNumber)
+        val dateOfBirthField = view?.findViewById<TextView>(R.id.dateOfBirth)
+        val photoField = view?.findViewById<Button>(R.id.updatePhoto)
+        val photoView = view?.findViewById<ImageView>(R.id.updatePhotoView)
+
+        firstNameField?.text = firstName
+        lastNameField?.text = lastName
+        emailField?.text = email
+        phoneNbField?.text = phoneNb
+        dateOfBirthField?.text = dateOfBirth
+        if (photoView != null) {
+            Glide.with(this)
+                .load(profileImageUrl)
+                .into(photoView)
+            photoField?.alpha = 0f
+        }
+    }
 }
