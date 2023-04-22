@@ -29,7 +29,26 @@ class CreateCampsiteActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.confirmBtn.setOnClickListener {
-            uploadImageToFirebaseStorage()
+            var name = binding.csNameET.text.toString()
+            var description = binding.csDescET.text.toString()
+            var capacity : Int
+
+            if (name.isEmpty() || description.isEmpty()) {
+                Toast.makeText(this, "Name and description cannot be blank!", Toast.LENGTH_SHORT).show()
+            } else {
+                try {
+                    capacity = parseInt(binding.csCapET.text.toString())
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(this, "Enter a value for capacity!", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if (capacity < 1) {
+                    Toast.makeText(this, "Capacity must be greater than 0!", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    uploadImageToFirebaseStorage()
+                }
+            }
         }
 
         binding.selectPhoto.setOnClickListener {
@@ -88,26 +107,13 @@ class CreateCampsiteActivity : AppCompatActivity() {
     private fun confirmCampsiteCreation(imageUrl: String) {
         var name = binding.csNameET.text.toString()
         var description = binding.csDescET.text.toString()
-        var capacity : Int
-        try {
-             capacity = parseInt(binding.csCapET.text.toString()) }
-        catch (e: NumberFormatException) {
-            Toast.makeText(this, "Enter a value for capacity!", Toast.LENGTH_SHORT).show()
-            return
-        }
-        if (name.isEmpty() || description.isEmpty()) {
-            Toast.makeText(this, "Name and description cannot be blank!", Toast.LENGTH_SHORT).show()
-        } else
-        if (capacity < 1) {
-            Toast.makeText(this, "Capacity must be greater than 0!", Toast.LENGTH_SHORT).show()
-        } else {
+        var capacity = parseInt(binding.csCapET.text.toString())
 
             val ref = FirebaseDatabase.getInstance().getReference("campsites")
             val campsite = Campsite(name, description, capacity, imageUrl)
             ref.push().setValue(campsite).addOnSuccessListener {
                 Toast.makeText(this,"Successfully added campsite!", Toast.LENGTH_SHORT).show()
                 exitCampsiteCreation()
-            }
         }
     }
 }
