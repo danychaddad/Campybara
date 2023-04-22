@@ -25,9 +25,12 @@ import java.util.UUID
 class ProfileFragment : Fragment() {
 
     private var selectedPhotoUri: Uri? = null
+    private var changedImage: Boolean = false
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,7 +79,13 @@ class ProfileFragment : Fragment() {
                         if (firstNameField?.text.toString().isNotEmpty() && lastNameField?.text.toString()
                                 .isNotEmpty() && phoneNbField?.text.toString().isNotEmpty()
                         ) {
-                            uploadImageToFirebaseStorage(firstNameField?.text.toString(), lastNameField?.text.toString(), phoneNbField?.text.toString())
+                            if (changedImage) {
+                                uploadImageToFirebaseStorage(firstNameField?.text.toString(), lastNameField?.text.toString(), phoneNbField?.text.toString())
+                            } else {
+                                profileImageUrl?.let { it2 ->
+                                    updateProfile(firstNameField?.text.toString(), lastNameField?.text.toString(), phoneNbField?.text.toString(), it2)
+                                }
+                            }
                         } else {
                             firstNameField?.text = firstName
                             lastNameField?.text = lastName
@@ -113,6 +122,7 @@ class ProfileFragment : Fragment() {
                     .load(selectedPhotoUri)
                     .into(photoView)
                 photoField?.alpha = 0f
+                changedImage = true
             }
         }
     }
@@ -143,12 +153,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun updateProfile(
-        newFirstName: String,
-        newLastName: String,
-        newPhoneNb: String,
-        newProfileImageUrl: String
-    ) {
+    private fun updateProfile(newFirstName: String, newLastName: String, newPhoneNb: String, newProfileImageUrl: String) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val ref = FirebaseDatabase.getInstance().getReference("users")
 
@@ -163,6 +168,7 @@ class ProfileFragment : Fragment() {
                 phoneNb = newPhoneNb
                 profileImageUrl = newProfileImageUrl
                 Toast.makeText(context, "Profile Updated Successfully !!", Toast.LENGTH_SHORT).show()
+                changedImage = false
             }
             .addOnFailureListener {
                 Toast.makeText(context, "Could Not Update Profile !!", Toast.LENGTH_SHORT).show()
