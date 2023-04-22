@@ -6,6 +6,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -25,17 +27,18 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.UUID
 
+    var memberList = mutableListOf<DataSnapshot>()
+    var memberUids = mutableListOf<String>()
 class CreateGroupActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateGroupBinding
     private var imageUri: Uri? = null
-    val memberList = mutableListOf<DataSnapshot>()
-    val memberUids = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.title = "Create Group"
         binding = ActivityCreateGroupBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        CreateGroupActivity.Companion.binding = binding
 
         binding.createGroupBtn.setOnClickListener {
             val name = binding.groupName.text.toString()
@@ -81,7 +84,7 @@ class CreateGroupActivity : AppCompatActivity() {
                                     for (member in memberList) {
                                         adapter.add(UserItem(member))
                                     }
-                                    binding.memberList.adapter = adapter
+                                    binding.memberListView.adapter = adapter
                                 } else {
                                     Toast.makeText(this@CreateGroupActivity, "Member already added !!", Toast.LENGTH_SHORT).show()
                                 }
@@ -106,6 +109,8 @@ class CreateGroupActivity : AppCompatActivity() {
 
 
     private fun exitGroupCreation() {
+        memberList = mutableListOf<DataSnapshot>()
+        memberUids = mutableListOf<String>()
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
@@ -171,6 +176,18 @@ class CreateGroupActivity : AppCompatActivity() {
             exitGroupCreation()
         }
     }
+
+    companion object {
+        private lateinit var binding: ActivityCreateGroupBinding
+        fun removeMember() {
+            val adapter = GroupAdapter<GroupieViewHolder>()
+            for (member in memberList) {
+                adapter.add(UserItem(member))
+            }
+
+            binding.memberListView.adapter = adapter
+        }
+    }
 }
 
 class UserItem(val member : DataSnapshot) : Item<GroupieViewHolder>() {
@@ -181,7 +198,15 @@ class UserItem(val member : DataSnapshot) : Item<GroupieViewHolder>() {
         Picasso.get().load(memberProfilePic).into(viewHolder.itemView.findViewById<ImageView>(R.id.memberListPic))
         viewHolder.itemView.findViewById<TextView>(R.id.memberListName).text = "$memberFirstName $memberLastName"
 
+        viewHolder.itemView.findViewById<ImageButton>(R.id.removeMember).setOnClickListener {
+            val memberId = member.child("uid").value.toString()
+            memberUids.remove(memberId)
+            memberList.remove(member)
+            CreateGroupActivity.removeMember()
+        }
     }
+
+
 
     override fun getLayout(): Int {
         return R.layout.new_member_row
