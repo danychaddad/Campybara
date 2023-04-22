@@ -24,12 +24,9 @@ class CreateCampsiteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_campsite)
+        supportActionBar?.title = "Create Campsite"
         binding = ActivityCreateCampsiteBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        binding.btnExit.setOnClickListener{
-            exitCampsiteCreation()
-        }
 
         binding.confirmBtn.setOnClickListener {
             uploadImageToFirebaseStorage()
