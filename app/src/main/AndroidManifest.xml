@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Campybara"
         tools:targetApi="31">
         <activity
+            android:name=".CampsiteDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateCampsiteActivity"
             android:exported="false" />
         <activity
@@ -31,7 +34,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

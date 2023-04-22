@@ -1,12 +1,8 @@
 package com.shaygang.campybara
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Outline
-import android.graphics.Path
-import android.graphics.RectF
 import android.os.Bundle
-import android.renderscript.Sampler.Value
 import android.util.AttributeSet
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,12 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
-import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,7 +61,7 @@ class HomeFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        adapter = CampsiteAdapter(campsiteArrayList)
+        adapter = CampsiteAdapter(campsiteArrayList, requireContext())
         recyclerView.adapter = adapter
     }
 
@@ -94,7 +88,6 @@ class HomeFragment : Fragment() {
 
     private fun campsiteInitialize() {
         campsiteArrayList = arrayListOf<Campsites>()
-        // TODO: Get from database instead of being hard-coded
         databaseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 //              campsiteArrayList.clear()
