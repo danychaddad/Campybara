@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        super.onStart()
         user = FirebaseAuth.getInstance().currentUser!!
         databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
         if (firstName == null || lastName == null || email == null || phoneNb == null || dateOfBirth == null || profileImageUrl == null) {
@@ -104,6 +103,7 @@ class MainActivity : AppCompatActivity() {
                     firebaseAuth = FirebaseAuth.getInstance()
                     firebaseAuth.signOut()
                     val intent = Intent(this, SignInActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)
                 }
                 .show()

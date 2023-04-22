@@ -54,8 +54,14 @@ class SignUpActivity : AppCompatActivity() {
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
                 updateDateOfBirth(myCalendar)
             }
-            DatePickerDialog(this, datePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH)).show()
+            val maxDate = Calendar.getInstance().apply {
+                add(Calendar.YEAR, -13)
+            }.timeInMillis
+
+            var dialog = DatePickerDialog(this, datePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH))
+            dialog.datePicker.maxDate = maxDate
+            dialog.show()
         }
 
     }
