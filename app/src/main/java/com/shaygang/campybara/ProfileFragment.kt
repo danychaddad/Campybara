@@ -56,6 +56,7 @@ class ProfileFragment : Fragment() {
         emailField?.text = email
         phoneNbField?.text = phoneNb
         dateOfBirthField?.text = dateOfBirth
+
         if (photoView != null) {
             Glide.with(this)
                 .load(profileImageUrl)
