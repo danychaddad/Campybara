@@ -31,7 +31,7 @@ class SearchFragment : Fragment() {
     private lateinit var searchView: SearchView
     lateinit var campsiteNameList: ArrayList<String>
     private lateinit var campsiteArrayList : ArrayList<Campsites>
-    private lateinit var adapter: CampsiteAdapter
+    //private lateinit var adapter: CampsiteAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +64,7 @@ class SearchFragment : Fragment() {
             campsiteNameList.add(campsite.campsiteName)
         }
         val campsiteList = mutableListOf<String>()
-        adapter = CampsiteAdapter(campsiteArrayList)
+        //adapter = CampsiteAdapter(campsiteArrayList, context = null)
         listView.adapter = campsiteAdapter
         val database = FirebaseDatabase.getInstance().reference
 
@@ -116,7 +116,7 @@ class SearchFragment : Fragment() {
                     campsiteArrayList.add(campsite)
                     // Do something with the child key and value
                 }
-                adapter.notifyDataSetChanged()
+                //adapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(error: DatabaseError) {
