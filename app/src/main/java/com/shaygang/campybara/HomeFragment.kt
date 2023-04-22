@@ -1,13 +1,21 @@
 package com.shaygang.campybara
 
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Outline
+import android.graphics.Path
+import android.graphics.RectF
 import android.os.Bundle
 import android.renderscript.Sampler.Value
+import android.util.AttributeSet
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
@@ -104,21 +112,23 @@ class HomeFragment : Fragment() {
                 // Handle any errors here
             }
         })
+    }
+}
 
-//        imageId = arrayOf (
-//            R.drawable.campy,
-//            R.drawable.campy,
-//            R.drawable.campybara_logo
-//                )
-//        names = arrayOf(
-//            "test1",
-//            "test2",
-//            "test3",
-//            "test4"
-//        )
-//        for (i in imageId.indices) {
-//            val campsite = Campsites(imageId[i],names[i])
-//            campsiteArrayList.add(campsite)
-//        }
+class RoundedImageView(context: Context, attrs: AttributeSet) : AppCompatImageView(context, attrs) {
+
+    private var cornerRadius = 10f
+
+    init {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundedImageView)
+        cornerRadius = typedArray.getDimension(R.styleable.RoundedImageView_cornerRadius, 10f)
+        typedArray.recycle()
+
+        outlineProvider = object : ViewOutlineProvider() {
+            override fun getOutline(view: View?, outline: Outline?) {
+                outline?.setRoundRect(0, 0, view!!.width, view.height, cornerRadius)
+            }
+        }
+        clipToOutline = true
     }
 }

@@ -2,6 +2,7 @@ package com.shaygang.campybara
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -40,8 +41,7 @@ class CreateCampsiteActivity : AppCompatActivity() {
     }
 
     private fun exitCampsiteCreation() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
+        finish()
     }
     private fun chooseImage() {
         val intent = Intent(Intent.ACTION_PICK)
@@ -54,6 +54,7 @@ class CreateCampsiteActivity : AppCompatActivity() {
             imageUri = data.data
             try {
                 val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+                val drawable = BitmapDrawable(resources,bitmap)
                 binding.selectPhotoView.setImageBitmap(bitmap)
                 binding.selectPhoto.alpha = 0f
             } catch (e: IOException) {
