@@ -97,7 +97,7 @@ class SignUpActivity : AppCompatActivity() {
         val pass = binding.passET.text.toString()
         val confirmPass = binding.confirmPassEt.text.toString()
 
-        if (selectedPhotoUri != null && firstName.isNotEmpty() && lastName.isNotEmpty() && phoneNb.isNotEmpty() && dateOfBirth.isNotEmpty()
+        if (firstName.isNotEmpty() && lastName.isNotEmpty() && phoneNb.isNotEmpty() && dateOfBirth.isNotEmpty()
             && email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
             if (pass == confirmPass) {
                 firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
@@ -137,6 +137,8 @@ class SignUpActivity : AppCompatActivity() {
                 .addOnFailureListener {
                     Toast.makeText(this, "Failed to upload image!", Toast.LENGTH_SHORT).show()
                 }
+        } else {
+            saveUserToFirebaseDatabase("https://firebasestorage.googleapis.com/v0/b/campybara-f185f.appspot.com/o/images_profile%2Fdefault_pp.jpg?alt=media&token=b2dc37b3-51f6-46f8-995f-231a779410a2")
         }
     }
 
