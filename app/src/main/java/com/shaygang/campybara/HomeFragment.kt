@@ -1,5 +1,6 @@
 package com.shaygang.campybara
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Outline
 import android.os.Bundle
@@ -32,7 +33,7 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var campsiteArrayList : ArrayList<Campsites>
+    private lateinit var campsiteArrayList : ArrayList<Campsite>
     lateinit var imageId : Array<Int>
     lateinit var names : Array<String>
 
@@ -87,14 +88,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun campsiteInitialize() {
-        campsiteArrayList = arrayListOf<Campsites>()
+        campsiteArrayList = arrayListOf<Campsite>()
         databaseRef.addValueEventListener(object : ValueEventListener {
+            @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 //              campsiteArrayList.clear()
                 // Get all children of myRef
                 for (childSnapshot in dataSnapshot.children) {
-                    val campsite = Campsites(childSnapshot.child("imageUrl").value.toString(), childSnapshot.child("name").value.toString())
-                    Log.d("DB", campsite.campsiteName)
+                    val imageUrl = childSnapshot.child("imageUrl").value.toString()
+                    val campsiteName = childSnapshot.child("name").value.toString()
+                    val ownerUid = childSnapshot.child("ownerUID").value.toString()
+                    val campsite = Campsite(campsiteName, " ",-1,imageUrl,3.5,ownerUid)
+                    Log.d("DB", campsite.name)
                     campsiteArrayList.add(campsite)
                     // Do something with the child key and value
                 }

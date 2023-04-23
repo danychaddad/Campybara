@@ -2,9 +2,8 @@ package com.shaygang.campybara
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.shaygang.campybara.User.Companion.loadUserFromUid
 import com.shaygang.campybara.databinding.ActivityCampsiteDetailsBinding
 
 class CampsiteDetailsActivity : AppCompatActivity() {
@@ -12,7 +11,8 @@ class CampsiteDetailsActivity : AppCompatActivity() {
     private lateinit var campsiteName : String
     private lateinit var campsiteImageUrl : String
     private lateinit var binding: ActivityCampsiteDetailsBinding
-
+    private lateinit var campsiteOwnerUid : String;
+    private lateinit var campsiteOwner : User;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_campsite_details)
@@ -20,15 +20,23 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         setContentView(binding.root)
         val extras = intent.extras;
         campsiteName = extras!!.getString("campsiteName")!!
-        campsiteImageUrl = extras!!.getString("imageUrl")!!
+        campsiteImageUrl = extras.getString("imageUrl")!!
+        campsiteOwnerUid = extras.getString("ownerUid")!!
         supportActionBar?.hide()
         val titleTextView = binding.campsiteName
         Glide.with(this).load(campsiteImageUrl).placeholder(R.drawable.capy_loading_image).into(binding.campsiteImage)
         titleTextView.text = campsiteName
-        binding.ownerLayout.setOnClickListener{
-
+        loadUserFromUid(campsiteOwnerUid) { user ->
+            if (user != null) {
+                // TODO: Add a shimmer effect loading
+                campsiteOwner = user
+                val ownerFullName = user.firstName + " " + user.lastName
+                binding.ownerName.text = ownerFullName
+                Glide.with(this).load(user.profileImageUrl).placeholder(R.drawable.capy_loading_image).into(binding.ownerProfilePic)
+            } else {
+                // Handle the error
+            }
         }
+
     }
-
-
 }

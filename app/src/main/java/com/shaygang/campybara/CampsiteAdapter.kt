@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class CampsiteAdapter(private val campsiteList: ArrayList<Campsites>, val context : Context) : RecyclerView.Adapter<CampsiteAdapter.CampsiteViewHolder>() {
+class CampsiteAdapter(private val campsiteList: ArrayList<Campsite>, val context: Context) : RecyclerView.Adapter<CampsiteAdapter.CampsiteViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CampsiteViewHolder {
@@ -24,12 +24,13 @@ class CampsiteAdapter(private val campsiteList: ArrayList<Campsites>, val contex
 
     override fun onBindViewHolder(holder: CampsiteViewHolder, position: Int) {
         val currentItem = campsiteList[position]
-        Glide.with(holder.itemView).load(currentItem.campsiteImageURL).placeholder(R.drawable.capy_loading_image).into(holder.campsiteImage)
-        holder.campsiteName.text = currentItem.campsiteName
+        Glide.with(holder.itemView).load(currentItem.imageUrl).placeholder(R.drawable.capy_loading_image).into(holder.campsiteImage)
+        holder.campsiteName.text = currentItem.name
         holder.itemView.setOnClickListener {
             val intent = Intent(context, CampsiteDetailsActivity::class.java)
-            intent.putExtra("campsiteName", currentItem.campsiteName)
-            intent.putExtra("imageUrl", currentItem.campsiteImageURL)
+            intent.putExtra("campsiteName", currentItem.name)
+            intent.putExtra("imageUrl", currentItem.imageUrl)
+            intent.putExtra("ownerUid", currentItem.ownerUID)
             context.startActivity(intent)
         }
     }
