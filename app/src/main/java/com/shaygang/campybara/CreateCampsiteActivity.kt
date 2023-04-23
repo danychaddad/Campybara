@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.shaygang.campybara.databinding.ActivityCreateCampsiteBinding
@@ -110,7 +111,7 @@ class CreateCampsiteActivity : AppCompatActivity() {
         var capacity = parseInt(binding.csCapET.text.toString())
 
             val ref = FirebaseDatabase.getInstance().getReference("campsites")
-            val campsite = Campsite(name, description, capacity, imageUrl)
+            val campsite = Campsite(name, description, capacity, imageUrl, 2.5, FirebaseAuth.getInstance().currentUser!!.uid)
             ref.push().setValue(campsite).addOnSuccessListener {
                 Toast.makeText(this,"Successfully added campsite!", Toast.LENGTH_SHORT).show()
                 exitCampsiteCreation()
