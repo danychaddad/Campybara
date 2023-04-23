@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -205,8 +204,6 @@ class UserItem(val member : DataSnapshot) : Item<GroupieViewHolder>() {
             CreateGroupActivity.removeMember()
         }
     }
-
-
 
     override fun getLayout(): Int {
         return R.layout.new_member_row
