@@ -34,7 +34,7 @@ class ChatFragment : Fragment() {
         }
 
         view?.findViewById<Button>(R.id.openChat)?.setOnClickListener {
-            fetchUser("pierre@gmail.com")
+            fetchUser("fares@gmail.com")
         }
         return view
     }

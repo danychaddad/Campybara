@@ -20,11 +20,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
+import java.net.URL
 import java.util.UUID
 
 class ProfileFragment : Fragment() {
 
     private var selectedPhotoUri: Uri? = null
+    private var selectedPhotoUrl: String? = null
     private var changedImage: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +47,7 @@ class ProfileFragment : Fragment() {
         val dateOfBirthField = view?.findViewById<TextView>(R.id.dateOfBirth)
         val photoField = view?.findViewById<Button>(R.id.updatePhoto)
         val photoView = view?.findViewById<ImageView>(R.id.updatePhotoView)
+        val removeProfilePic = view?.findViewById<ImageView>(R.id.removeProfilePic)
 
         view.findViewById<Button>(R.id.btnNewCampsite)?.setOnClickListener {
             val intent = Intent(activity, CreateCampsiteActivity::class.java)
@@ -70,6 +73,18 @@ class ProfileFragment : Fragment() {
             startActivityForResult(intent, 0)
         }
 
+        removeProfilePic?.setOnClickListener {
+            changedImage = false
+            selectedPhotoUrl = "https://firebasestorage.googleapis.com/v0/b/campybara-f185f.appspot.com/o/images_profile%2Fdefault_pp.jpg?alt=media&token=b2dc37b3-51f6-46f8-995f-231a779410a2"
+            if (photoView != null) {
+                Glide.with(this)
+                    .load(selectedPhotoUrl)
+                    .into(photoView)
+                photoField?.alpha = 0f
+            }
+
+        }
+
         val updateProfileBtn = view?.findViewById<Button>(R.id.updateProfileBtn)
         updateProfileBtn?.setOnClickListener {
             context?.let { it1 ->
@@ -82,6 +97,8 @@ class ProfileFragment : Fragment() {
                         ) {
                             if (changedImage) {
                                 uploadImageToFirebaseStorage(firstNameField?.text.toString(), lastNameField?.text.toString(), phoneNbField?.text.toString())
+                            } else if (selectedPhotoUrl != null) {
+                                updateProfile(firstNameField?.text.toString(), lastNameField?.text.toString(), phoneNbField?.text.toString(), selectedPhotoUrl!!)
                             } else {
                                 profileImageUrl?.let { it2 ->
                                     updateProfile(firstNameField?.text.toString(), lastNameField?.text.toString(), phoneNbField?.text.toString(), it2)
@@ -124,6 +141,7 @@ class ProfileFragment : Fragment() {
                     .into(photoView)
                 photoField?.alpha = 0f
                 changedImage = true
+                selectedPhotoUrl = null
             }
         }
     }
