@@ -30,7 +30,7 @@ class SearchFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var searchView: SearchView
     lateinit var campsiteNameList: ArrayList<String>
-    private lateinit var campsiteArrayList : ArrayList<Campsites>
+    private lateinit var campsiteArrayList : ArrayList<Campsite>
     //private lateinit var adapter: CampsiteAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +61,7 @@ class SearchFragment : Fragment() {
         campsiteInitialize()
         val campsiteAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, campsiteNameList)
         for (campsite in campsiteArrayList) {
-            campsiteNameList.add(campsite.campsiteName)
+            campsiteNameList.add(campsite.name)
         }
         val campsiteList = mutableListOf<String>()
         //adapter = CampsiteAdapter(campsiteArrayList, context = null)
@@ -104,15 +104,15 @@ class SearchFragment : Fragment() {
     }
 
     private fun campsiteInitialize() {
-        campsiteArrayList = arrayListOf<Campsites>()
+        campsiteArrayList = arrayListOf<Campsite>()
         // TODO: Get from database instead of being hard-coded
         databaseRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 //              campsiteArrayList.clear()
                 // Get all children of myRef
                 for (childSnapshot in dataSnapshot.children) {
-                    val campsite = Campsites(childSnapshot.child("imageUrl").value.toString(), childSnapshot.child("name").value.toString())
-                    Log.d("DB", campsite.campsiteName)
+                    val campsite = Campsite(childSnapshot.child("imageUrl").value.toString(), childSnapshot.child("name").value.toString())
+                    Log.d("DB", campsite.name)
                     campsiteArrayList.add(campsite)
                     // Do something with the child key and value
                 }
