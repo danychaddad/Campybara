@@ -176,6 +176,18 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/updateProfileBtn" />
+
+                <ImageButton
+                    android:id="@+id/removeProfilePic"
+                    android:layout_width="48dp"
+                    android:layout_height="43dp"
+                    android:backgroundTint="#FF0000"
+                    android:src="@drawable/baseline_delete_24"
+                    app:layout_constraintBottom_toTopOf="@+id/firstNameLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.469"
+                    app:layout_constraintStart_toEndOf="@+id/updatePhoto"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
