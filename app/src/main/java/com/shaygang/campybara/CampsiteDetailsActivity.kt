@@ -21,10 +21,13 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         val extras = intent.extras;
         campsiteName = extras!!.getString("campsiteName")!!
         campsiteImageUrl = extras!!.getString("imageUrl")!!
-
+        supportActionBar?.hide()
         val titleTextView = binding.campsiteName
         Glide.with(this).load(campsiteImageUrl).placeholder(R.drawable.capy_loading_image).into(binding.campsiteImage)
         titleTextView.text = campsiteName
+        binding.ownerLayout.setOnClickListener{
+
+        }
     }
 
 
