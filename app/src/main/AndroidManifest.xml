@@ -27,6 +27,12 @@
                 android:value=".MainActivity"/>
         </activity>
         <activity
+            android:name=".ChatActivity"
+            android:exported="false">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+        <activity
             android:name=".SignInActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
