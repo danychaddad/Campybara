@@ -40,7 +40,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <RatingBar
-            android:id="@+id/ratingBar2"
+            android:id="@+id/newReviewRatingBar"
             style="@style/Widget.AppCompat.RatingBar.Indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,11 +56,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:text="Write your review here"
-            app:layout_constraintStart_toStartOf="@+id/ratingBar2"
-            app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
+            app:layout_constraintStart_toStartOf="@+id/newReviewRatingBar"
+            app:layout_constraintTop_toBottomOf="@+id/newReviewRatingBar" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout"
+            android:id="@+id/reviewInputLayout"
             android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_marginTop="5dp"
@@ -80,10 +80,11 @@
             app:layout_constraintTop_toBottomOf="@+id/writeReviewText">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/reviewInputText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="textLongMessage|textMultiLine"
-                android:gravity="top|left"/>
+                android:gravity="top|left"
+                android:inputType="textLongMessage|textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -94,9 +95,9 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
             android:text="Submit Review"
-            app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-            app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+            app:layout_constraintEnd_toEndOf="@+id/reviewInputLayout"
+            app:layout_constraintStart_toStartOf="@+id/reviewInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/reviewInputLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
