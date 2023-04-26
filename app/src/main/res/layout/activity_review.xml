@@ -2,8 +2,284 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ratingScoreLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ReviewActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/addReviewLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/reviewsSummaryLayout"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:background="@color/beige">
+
+                <TextView
+                    android:id="@+id/reviewsRatingScore"
+                    android:layout_width="60dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:text="5.5"
+                    android:textAlignment="center"
+                    android:textSize="34sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RatingBar
+                    android:id="@+id/avgRatingBar"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="5"
+                    app:layout_constraintStart_toEndOf="@+id/reviewsRatingScore"
+                    app:layout_constraintStart_toStartOf="@+id/reviewsProgress5"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsRatingScore" />
+
+                <TextView
+                    android:id="@+id/avgRatingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Based on 1183 ratings"
+                    android:textSize="10sp"
+                    app:layout_constraintStart_toStartOf="@+id/avgRatingBar"
+                    app:layout_constraintTop_toBottomOf="@+id/avgRatingBar" />
+
+                <RatingBar
+                    android:id="@+id/reviewsRating5"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:isIndicator="true"
+                    android:progressTint="@color/primary"
+                    android:rating="5"
+                    app:layout_constraintEnd_toEndOf="@+id/reviewsRatingScore"
+                    app:layout_constraintStart_toStartOf="@+id/reviewsRatingScore"
+                    app:layout_constraintTop_toBottomOf="@+id/reviewsRatingScore" />
+
+                <ProgressBar
+                    android:id="@+id/reviewsProgress5"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="13dp"
+                    android:progress="90"
+                    android:progressTint="#00AF40"
+                    app:layout_constraintEnd_toStartOf="@+id/reviewsRatingPrct5"
+                    app:layout_constraintStart_toEndOf="@+id/reviewsRating5"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsRating5" />
+
+                <TextView
+                    android:id="@+id/reviewsRatingPrct5"
+                    android:layout_width="25dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center"
+                    android:text="90%"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/reviewsProgress5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsProgress5" />
+
+                <RatingBar
+                    android:id="@+id/reviewsRating4"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="4"
+                    android:progressTint="#54D182"
+                    android:rating="4"
+                    app:layout_constraintEnd_toEndOf="@+id/reviewsRating5"
+                    app:layout_constraintTop_toBottomOf="@+id/reviewsRating5" />
+
+                <ProgressBar
+                    android:id="@+id/reviewsProgress4"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="13dp"
+                    android:progress="90"
+                    android:progressTint="#54D081"
+                    app:layout_constraintEnd_toStartOf="@+id/reviewsRatingPrct4"
+                    app:layout_constraintStart_toEndOf="@+id/reviewsRating4"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsRating4" />
+
+                <TextView
+                    android:id="@+id/reviewsRatingPrct4"
+                    android:layout_width="25dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center"
+                    android:text="90%"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/reviewsProgress4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsProgress4" />
+
+                <RatingBar
+                    android:id="@+id/reviewsRating3"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="3"
+                    android:progressTint="#ECD10B"
+                    android:rating="3"
+                    app:layout_constraintEnd_toEndOf="@+id/reviewsRating4"
+                    app:layout_constraintTop_toBottomOf="@+id/reviewsRating4" />
+
+                <ProgressBar
+                    android:id="@+id/reviewsProgress3"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="13dp"
+                    android:progress="90"
+                    android:progressTint="#EDD20B"
+                    app:layout_constraintEnd_toStartOf="@+id/reviewsRatingPrct3"
+                    app:layout_constraintStart_toEndOf="@+id/reviewsRating3"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsRating3" />
+
+                <TextView
+                    android:id="@+id/reviewsRatingPrct3"
+                    android:layout_width="25dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center"
+                    android:text="90%"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/reviewsProgress3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsProgress3" />
+
+                <RatingBar
+                    android:id="@+id/reviewsRating2"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="2"
+                    android:progressTint="#F2A421"
+                    android:rating="2"
+                    app:layout_constraintEnd_toEndOf="@+id/reviewsRating3"
+                    app:layout_constraintTop_toBottomOf="@+id/reviewsRating3" />
+
+                <ProgressBar
+                    android:id="@+id/reviewsProgress2"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="13dp"
+                    android:progress="90"
+                    android:progressTint="#F1A321"
+                    app:layout_constraintEnd_toStartOf="@+id/reviewsRatingPrct2"
+                    app:layout_constraintStart_toEndOf="@+id/reviewsRating2"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsRating2" />
+
+                <TextView
+                    android:id="@+id/reviewsRatingPrct2"
+                    android:layout_width="25dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center"
+                    android:text="90%"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/reviewsProgress2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsProgress2" />
+
+                <RatingBar
+                    android:id="@+id/reviewsRating1"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:numStars="1"
+                    android:progressTint="#E27F8E"
+                    android:rating="1"
+                    app:layout_constraintEnd_toEndOf="@+id/reviewsRating2"
+                    app:layout_constraintTop_toBottomOf="@+id/reviewsRating2" />
+
+                <ProgressBar
+                    android:id="@+id/reviewsProgress1"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="13dp"
+                    android:progress="90"
+                    android:progressTint="#E37F8F"
+                    app:layout_constraintEnd_toStartOf="@+id/reviewsRatingPrct1"
+                    app:layout_constraintStart_toEndOf="@+id/reviewsRating1"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsRating1" />
+
+                <TextView
+                    android:id="@+id/reviewsRatingPrct1"
+                    android:layout_width="25dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="12dp"
+                    android:gravity="center"
+                    android:text="90%"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/reviewsProgress1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/reviewsProgress1" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviewsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#81EDEAE2"
+                tools:itemCount="10"
+                tools:listitem="@layout/review_item" />
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addReviewLayout"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="@color/beige"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/addReviewBtn"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:text="ADD A REVIEW"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
