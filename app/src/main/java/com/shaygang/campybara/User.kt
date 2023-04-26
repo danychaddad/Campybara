@@ -7,9 +7,8 @@ import kotlinx.coroutines.tasks.await
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 class User(val uid: String, val firstName: String, val lastName: String, val phoneNb: String, val dateOfBirth: String,
-           val email: String, val profileImageUrl: String) : Parcelable {
+           val email: String, val profileImageUrl: String) {
     constructor() : this("","","","","","","") {
     }
     companion object {
