@@ -88,8 +88,10 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/updateProfileBtn"
-                    android:layout_width="200dp"
+                    android:background="@drawable/rounded_button"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingHorizontal="50dp"
                     android:layout_marginTop="50dp"
                     android:backgroundTint="@color/primary"
                     android:text="@string/save_changes"
@@ -165,8 +167,10 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnNewCampsite"
-                    android:layout_width="200dp"
+                    android:background="@drawable/rounded_button"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingHorizontal="40dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="25dp"
                     android:backgroundTint="@color/primary"
