@@ -1,19 +1,33 @@
 package com.shaygang.campybara
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.shaygang.campybara.databinding.ActivityReviewBinding
 
 class ReviewActivity : AppCompatActivity() {
     private lateinit var reviewList: List<Review>
+    private lateinit var binding : ActivityReviewBinding
+    private lateinit var campsiteId : String;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_review)
         supportActionBar?.title = "Review Campsite"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
+        binding = ActivityReviewBinding.inflate(layoutInflater)
+        val extras = intent.extras
+        campsiteId = extras!!.getString("campsiteId").toString()
+        findViewById<Button>(R.id.addReviewBtn).setOnClickListener{
+            val intent = Intent(this, WriteReviewActivity::class.java)
+            intent.putExtra("campsiteId", campsiteId)
+            startActivity(intent)
+        }
         reviewList = listOf(
             Review("Beautiful location with great views of the mountains. The facilities were clean and well-maintained.", "John Doe", 4.5f),
             Review("We had a great time camping here. The staff were friendly and helpful, and the campsite was spacious and comfortable.", "Jane Smith", 4.0f),
@@ -25,9 +39,7 @@ class ReviewActivity : AppCompatActivity() {
             Review("We had a bit of trouble finding the campsite, but once we arrived, we were impressed by the stunning views and quiet surroundings. The staff were helpful and accommodating.", "Emily Wilson", 4.0f),
             Review("The campsite was overcrowded and noisy, and the bathrooms were not well-maintained. We would not recommend staying here if you are looking for a peaceful retreat.", "Ryan Taylor", 2.0f),
             Review("This was the best camping experience we have had in a long time. The campsite was well-equipped and the staff were friendly and helpful. We would definitely come back here again.", "Jessica Garcia", 5.0f)
-
         )
-
         // Set up the RecyclerView and its adapter
         val recyclerView: RecyclerView = findViewById(R.id.reviewsRecyclerView)
         val adapter = ReviewAdapter(reviewList)

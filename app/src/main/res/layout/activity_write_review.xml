@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WriteReviewActivity">
+
+    <TextView
+        android:id="@+id/newReviewCampsiteName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:text="Campsite Name"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/newRatingLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/newReviewCampsiteName"
+        app:layout_constraintTop_toBottomOf="@+id/newReviewCampsiteName">
+
+        <TextView
+            android:id="@+id/yourRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="Your rating"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            android:id="@+id/ratingBar2"
+            style="@style/Widget.AppCompat.RatingBar.Indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:isIndicator="false"
+            android:max="5"
+            android:numStars="5"
+            app:layout_constraintStart_toStartOf="@+id/yourRating"
+            app:layout_constraintTop_toBottomOf="@+id/yourRating" />
+
+        <TextView
+            android:id="@+id/writeReviewText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="Write your review here"
+            app:layout_constraintStart_toStartOf="@+id/ratingBar2"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/white"
+            app:boxBackgroundColor="#FFFFFF"
+            app:boxBackgroundMode="outline"
+            app:boxCornerRadiusBottomEnd="5dp"
+            app:boxCornerRadiusBottomStart="5dp"
+            app:boxCornerRadiusTopEnd="5dp"
+            app:boxCornerRadiusTopStart="5dp"
+            app:boxStrokeWidth="1dp"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/writeReviewText"
+            app:layout_constraintTop_toBottomOf="@+id/writeReviewText">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textLongMessage|textMultiLine"
+                android:gravity="top|left"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/submitReviewBtn"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:text="Submit Review"
+            app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+            app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Campybara"
         tools:targetApi="31">
         <activity
+            android:name=".WriteReviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".ReviewActivity"
             android:exported="false" />
         <activity

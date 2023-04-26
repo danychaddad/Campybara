@@ -3,6 +3,7 @@ package com.shaygang.campybara
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import com.bumptech.glide.Glide
 import com.shaygang.campybara.User.Companion.loadUserFromUid
 import com.shaygang.campybara.databinding.ActivityCampsiteDetailsBinding
@@ -25,7 +26,9 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         campsiteImageUrl = extras.getString("imageUrl")!!
         campsiteOwnerUid = extras.getString("ownerUid")!!
         campsiteId = extras.getString("campsiteId")!!
-        supportActionBar?.hide()
+        supportActionBar?.title = campsiteName
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
         val titleTextView = binding.campsiteName
         Glide.with(this).load(campsiteImageUrl).placeholder(R.drawable.capy_loading_image).into(binding.campsiteImage)
         titleTextView.text = campsiteName
@@ -47,5 +50,14 @@ class CampsiteDetailsActivity : AppCompatActivity() {
             intent.putExtra("campsiteName",campsiteName)
             startActivity(intent)
         }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
