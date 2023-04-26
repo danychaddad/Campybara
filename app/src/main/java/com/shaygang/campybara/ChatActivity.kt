@@ -1,6 +1,9 @@
 package com.shaygang.campybara
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -51,9 +54,17 @@ class ChatActivity : AppCompatActivity() {
                         adapter.add(ChatFromItem(chatMessage.text, receiverProfileUrl))
                     }
                 }
+                binding.chatLogView.scrollToPosition(adapter.itemCount - 1)
+
             }
 
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {}
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                val chatMessage = p0.getValue(ChatMessage::class.java)
+                val receiverProfileUrl = intent.getStringExtra(ChatFragment.USERPIC_KEY).toString()
+                if (chatMessage != null) {
+                    adapter.add(ChatFromItem(chatMessage.text, receiverProfileUrl))
+                }
+            }
 
             override fun onChildRemoved(p0: DataSnapshot) {}
 
@@ -65,20 +76,23 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun performSendMessage() {
-        val text = binding.editMessage.text.toString()
+        val text = binding.editMessage.text.toString().trim()
         val fromId = FirebaseAuth.getInstance().uid.toString()
         val toId = intent.getStringExtra(ChatFragment.USERID_KEY).toString()
 
-        val ref = FirebaseDatabase.getInstance().getReference("/user_messages/$fromId/$toId").push()
-        val ref2 = FirebaseDatabase.getInstance().getReference("/user_messages/$toId/$fromId").push()
+        if (text.isNotEmpty()) {
+            val ref = FirebaseDatabase.getInstance().getReference("/user_messages/$fromId/$toId").push()
+            val ref2 = FirebaseDatabase.getInstance().getReference("/user_messages/$toId/$fromId").push()
 
-        val chatMessage = ChatMessage(ref.key!!, text, fromId, toId, System.currentTimeMillis() / 1000)
-        ref.setValue(chatMessage)
-            .addOnSuccessListener {
-                binding.editMessage.text.clear()
-                binding.chatLogView.scrollToPosition(adapter.itemCount - 1)
-            }
-        ref2.setValue(chatMessage)
+            val chatMessage = ChatMessage(ref.key!!, text, fromId, toId, System.currentTimeMillis() / 1000)
+            ref.setValue(chatMessage)
+                .addOnSuccessListener {
+                    binding.editMessage.text.clear()
+                    binding.chatLogView.scrollToPosition(adapter.itemCount - 1)
+                }
+            ref2.setValue(chatMessage)
+        }
+
     }
 
 }
