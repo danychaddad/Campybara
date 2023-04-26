@@ -33,9 +33,10 @@ class HomeFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private var param1: String? = null
     private var param2: String? = null
-    private lateinit var campsiteArrayList : ArrayList<Campsite>
+    private lateinit var campsiteMap : MutableMap<Campsite,String>
     lateinit var imageId : Array<Int>
     lateinit var names : Array<String>
+    private var campsiteList : ArrayList<Campsite> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +63,7 @@ class HomeFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        adapter = CampsiteAdapter(campsiteArrayList, requireContext())
+        adapter = CampsiteAdapter(campsiteMap, campsiteList, requireContext())
         recyclerView.adapter = adapter
     }
 
@@ -88,11 +89,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun campsiteInitialize() {
-        campsiteArrayList = arrayListOf<Campsite>()
+        campsiteMap = mutableMapOf()
         databaseRef.addValueEventListener(object : ValueEventListener {
             @SuppressLint("NotifyDataSetChanged")
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-//              campsiteArrayList.clear()
                 // Get all children of myRef
                 for (childSnapshot in dataSnapshot.children) {
                     val imageUrl = childSnapshot.child("imageUrl").value.toString()
@@ -100,7 +100,8 @@ class HomeFragment : Fragment() {
                     val ownerUid = childSnapshot.child("ownerUID").value.toString()
                     val campsite = Campsite(campsiteName, " ",-1,imageUrl,3.5,ownerUid)
                     Log.d("DB", campsite.name)
-                    campsiteArrayList.add(campsite)
+                    campsiteList.add(campsite)
+                    campsiteMap[campsite] = childSnapshot.key.toString()
                     // Do something with the child key and value
                 }
                 adapter.notifyDataSetChanged()

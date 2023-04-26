@@ -1,5 +1,6 @@
 package com.shaygang.campybara
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
@@ -13,6 +14,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCampsiteDetailsBinding
     private lateinit var campsiteOwnerUid : String;
     private lateinit var campsiteOwner : User;
+    private lateinit var campsiteId : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_campsite_details)
@@ -22,6 +24,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         campsiteName = extras!!.getString("campsiteName")!!
         campsiteImageUrl = extras.getString("imageUrl")!!
         campsiteOwnerUid = extras.getString("ownerUid")!!
+        campsiteId = extras.getString("campsiteId")!!
         supportActionBar?.hide()
         val titleTextView = binding.campsiteName
         Glide.with(this).load(campsiteImageUrl).placeholder(R.drawable.capy_loading_image).into(binding.campsiteImage)
@@ -32,11 +35,17 @@ class CampsiteDetailsActivity : AppCompatActivity() {
                 campsiteOwner = user
                 val ownerFullName = user.firstName + " " + user.lastName
                 binding.ownerName.text = ownerFullName
+                binding.ownerEmail.text = user.email
                 Glide.with(this).load(user.profileImageUrl).placeholder(R.drawable.capy_loading_image).into(binding.ownerProfilePic)
             } else {
                 // Handle the error
             }
         }
-
+        binding.ratingLayout.setOnClickListener{
+            val intent = Intent(this, ReviewActivity::class.java)
+            intent.putExtra("campsiteId",campsiteId)
+            intent.putExtra("campsiteName",campsiteName)
+            startActivity(intent)
+        }
     }
 }
