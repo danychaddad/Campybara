@@ -114,6 +114,7 @@ class CreateCampsiteActivity : AppCompatActivity() {
             val campsite = Campsite(name, description, capacity, imageUrl, 2.5, FirebaseAuth.getInstance().currentUser!!.uid)
             ref.push().setValue(campsite).addOnSuccessListener {
                 Toast.makeText(this,"Successfully added campsite!", Toast.LENGTH_SHORT).show()
+
                 exitCampsiteCreation()
         }
     }

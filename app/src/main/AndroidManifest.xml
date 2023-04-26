@@ -12,25 +12,31 @@
         android:theme="@style/Theme.Campybara"
         tools:targetApi="31">
         <activity
+            android:name=".ReviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".CampsiteDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".CreateCampsiteActivity"
             android:exported="false">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".CreateGroupActivity"
             android:exported="false">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".ChatActivity"
             android:exported="false">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".SignInActivity"
@@ -48,8 +54,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:exported="false"/>
+            android:exported="false"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>
