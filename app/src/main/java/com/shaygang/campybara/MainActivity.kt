@@ -40,6 +40,9 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         supportActionBar?.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayShowCustomEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setCustomView(R.layout.actionbar_title)
 
         user = FirebaseAuth.getInstance().currentUser!!
         databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
