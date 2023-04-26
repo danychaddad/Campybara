@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -21,6 +22,7 @@ import java.util.*
 
 class CreateCampsiteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateCampsiteBinding
+    private lateinit var fragment: MapsFragment
     private var imageUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,9 @@ class CreateCampsiteActivity : AppCompatActivity() {
         supportActionBar?.title = "Create Campsite"
         binding = ActivityCreateCampsiteBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fragment = MapsFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.mapLayout, fragment).commit()
 
         binding.confirmBtn.setOnClickListener {
             var name = binding.csNameET.text.toString()
