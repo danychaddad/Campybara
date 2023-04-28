@@ -9,7 +9,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -34,10 +33,15 @@ class CreateCampsiteActivity : AppCompatActivity() {
         fragment = MapsFragment()
         supportFragmentManager.beginTransaction().replace(R.id.mapLayout, fragment).commit()
 
+        binding.saveLocationBtn.setOnClickListener {
+            binding.geolocationTextView.text = MapsFragment.CAMPSITE_ADDRESS
+        }
+
         binding.confirmBtn.setOnClickListener {
             var name = binding.csNameET.text.toString()
             var description = binding.csDescET.text.toString()
             var capacity : Int
+            var address = binding.geolocationTextView.text.toString()
 
             if (name.isEmpty() || description.isEmpty()) {
                 Toast.makeText(this, "Name and description cannot be blank!", Toast.LENGTH_SHORT).show()
@@ -52,7 +56,12 @@ class CreateCampsiteActivity : AppCompatActivity() {
                     Toast.makeText(this, "Capacity must be greater than 0!", Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    uploadImageToFirebaseStorage()
+                    if (address.isEmpty()) {
+                        Toast.makeText(this, "Save your campsite's location !!", Toast.LENGTH_SHORT).show()
+
+                    } else {
+                        uploadImageToFirebaseStorage()
+                    }
                 }
             }
         }
@@ -114,9 +123,10 @@ class CreateCampsiteActivity : AppCompatActivity() {
         var name = binding.csNameET.text.toString()
         var description = binding.csDescET.text.toString()
         var capacity = parseInt(binding.csCapET.text.toString())
+        var location = MapsFragment.CAMPSITE_LOCATION
 
             val ref = FirebaseDatabase.getInstance().getReference("campsites")
-            val campsite = Campsite(name, description, capacity, imageUrl, 2.5, FirebaseAuth.getInstance().currentUser!!.uid)
+            val campsite = Campsite(name, description, capacity, imageUrl, 2.5, FirebaseAuth.getInstance().currentUser!!.uid, location)
             ref.push().setValue(campsite).addOnSuccessListener {
                 Toast.makeText(this,"Successfully added campsite!", Toast.LENGTH_SHORT).show()
 

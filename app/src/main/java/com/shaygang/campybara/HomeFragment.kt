@@ -3,6 +3,7 @@ package com.shaygang.campybara
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Outline
+import android.location.Location
 import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
@@ -98,7 +99,8 @@ class HomeFragment : Fragment() {
                     val imageUrl = childSnapshot.child("imageUrl").value.toString()
                     val campsiteName = childSnapshot.child("name").value.toString()
                     val ownerUid = childSnapshot.child("ownerUID").value.toString()
-                    val campsite = Campsite(campsiteName, " ",-1,imageUrl,3.5,ownerUid)
+                    val location = Location(null)
+                    val campsite = Campsite(campsiteName, " ",-1,imageUrl,3.5,ownerUid, location)
                     Log.d("DB", campsite.name)
                     campsiteList.add(campsite)
                     campsiteMap[campsite] = childSnapshot.key.toString()
