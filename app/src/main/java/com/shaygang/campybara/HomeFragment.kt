@@ -22,6 +22,7 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: CampsiteAdapter
     private lateinit var recyclerView: RecyclerView
     private var campsiteList : ArrayList<Campsite> = arrayListOf()
+    private lateinit var campsiteMap : MutableMap<Campsite,String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         campsiteList.clear()
-        campsiteMap.clear()
         campsiteInitialize()
         val layoutManager = LinearLayoutManager(context)
         recyclerView = view.findViewById(R.id.recyclerView)
