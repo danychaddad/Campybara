@@ -1,16 +1,22 @@
 package com.shaygang.campybara
 
 import android.Manifest
+import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
@@ -33,12 +39,15 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
     private val callback = OnMapReadyCallback { googleMap ->
         map = googleMap
         map.uiSettings.isZoomControlsEnabled = true
+        map.uiSettings.isScrollGesturesEnabled = false
+        map.uiSettings.isZoomGesturesEnabled = false
+        map.uiSettings.isRotateGesturesEnabled = false
         map.setOnMarkerClickListener(this)
         setupMap()
     }
 
     companion object {
-        private const val LOCATION_REQUEST_CODE = 1
+        const val LOCATION_REQUEST_CODE = 1
         lateinit var CAMPSITE_ADDRESS : String
         lateinit var CAMPSITE_LOCATION : Location
     }
@@ -56,7 +65,7 @@ class MapsFragment : Fragment(), GoogleMap.OnMarkerClickListener {
                     lastLocation= location
                     val currentLatLng = LatLng(location.latitude, location.longitude)
                     placeMarkerOnMap(currentLatLng)
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
                     val address =  geocoder.getFromLocation(location.latitude, location.longitude, 1)
                     CAMPSITE_ADDRESS = address?.get(0)?.getAddressLine(0).toString()
                     CAMPSITE_LOCATION = lastLocation
