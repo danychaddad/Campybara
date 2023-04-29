@@ -21,6 +21,9 @@
             android:value="AIzaSyBkZYASFFCAhslQ8JBCeL3cEyloH1sd7BM" />
 
         <activity
+            android:name=".WriteReviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".ReviewActivity"
             android:exported="false" />
         <activity

@@ -16,7 +16,7 @@ class ReviewAdapter(private val reviewList: List<Review>) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val review = reviewList[position]
-        holder.username.text = review.username
+        holder.username.text = review.userId
         holder.text.text = review.text
         holder.ratingBar.rating = review.rating
     }

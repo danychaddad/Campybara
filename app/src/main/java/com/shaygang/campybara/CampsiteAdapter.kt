@@ -23,7 +23,7 @@ class CampsiteAdapter(private val campsiteMap: Map<Campsite,String>, private val
 
     override fun onBindViewHolder(holder: CampsiteViewHolder, position: Int) {
         val currentItem = campsiteList[position]
-        Glide.with(holder.itemView).load(currentItem.imageUrl).placeholder(R.drawable.capy_loading_image).into(holder.campsiteImage)
+        Glide.with(holder.itemView).load(currentItem.imageUrl.toString()).placeholder(R.drawable.capy_loading_image).into(holder.campsiteImage)
         holder.campsiteName.text = currentItem.name
         holder.itemView.setOnClickListener {
             val intent = Intent(context, CampsiteDetailsActivity::class.java)

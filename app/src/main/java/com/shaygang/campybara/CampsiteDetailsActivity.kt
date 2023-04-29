@@ -5,6 +5,9 @@ import android.location.Geocoder
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.RatingBar
+import android.widget.TextView
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -14,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.shaygang.campybara.User.Companion.loadUserFromUid
 import com.shaygang.campybara.databinding.ActivityCampsiteDetailsBinding
+import org.w3c.dom.Text
 import java.util.Locale
 
 class CampsiteDetailsActivity : AppCompatActivity() {
@@ -38,10 +42,11 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         campsiteName = extras!!.getString("campsiteName")!!
         campsiteImageUrl = extras.getString("imageUrl")!!
         campsiteOwnerUid = extras.getString("ownerUid")!!
-        campsiteId = extras.getString("campsiteId").toString()
+        campsiteId = extras.getString("campsiteId")!!
+        supportActionBar?.title = campsiteName
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
         campsiteLocation = extras.get("campsiteLocation") as ArrayList<Double>
-        supportActionBar?.hide()
-
         val titleTextView = binding.campsiteName
         Glide.with(this).load(campsiteImageUrl).placeholder(R.drawable.capy_loading_image).into(binding.campsiteImage)
         titleTextView.text = campsiteName
@@ -56,6 +61,13 @@ class CampsiteDetailsActivity : AppCompatActivity() {
             } else {
                 // Handle the error
             }
+        }
+        val reviewHelper = ReviewHelper(campsiteId)
+        reviewHelper.populateReviewList {
+            val avg = reviewHelper.calculateAvg()
+            findViewById<TextView>(R.id.ratingScore).text = avg.toString()
+            findViewById<RatingBar>(R.id.ratingBar).rating = avg
+            findViewById<TextView>(R.id.ratingText).text = "Based on ${reviewHelper.getReviewCount()} reviews"
         }
         binding.ratingLayout.setOnClickListener{
             val intent = Intent(this, ReviewActivity::class.java)
@@ -107,5 +119,14 @@ class CampsiteDetailsActivity : AppCompatActivity() {
 
     companion object {
         lateinit var CAMPSITE_LOCATION: ArrayList<Double>
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

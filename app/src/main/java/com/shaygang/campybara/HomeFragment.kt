@@ -21,9 +21,6 @@ class HomeFragment : Fragment() {
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var adapter: CampsiteAdapter
     private lateinit var recyclerView: RecyclerView
-    private var campsiteMap : MutableMap<Campsite,String> = mutableMapOf()
-//    lateinit var imageId : Array<Int>
-//    lateinit var names : Array<String>
     private var campsiteList : ArrayList<Campsite> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,7 +83,6 @@ class HomeFragment : Fragment() {
 }
 
 class RoundedImageView(context: Context, attrs: AttributeSet) : AppCompatImageView(context, attrs) {
-
     private var cornerRadius = 10f
 
     init {
