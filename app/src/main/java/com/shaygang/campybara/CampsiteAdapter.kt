@@ -31,6 +31,7 @@ class CampsiteAdapter(private val campsiteMap: Map<Campsite,String>, private val
             intent.putExtra("imageUrl", currentItem.imageUrl)
             intent.putExtra("ownerUid", currentItem.ownerUID)
             intent.putExtra("campsiteId", campsiteMap[currentItem])
+            intent.putExtra("campsiteLocation", currentItem.location)
             context.startActivity(intent)
         }
     }

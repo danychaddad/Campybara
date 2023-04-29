@@ -7,10 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -37,16 +35,9 @@ class ChatFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
-        view?.findViewById<Button>(R.id.button)?.setOnClickListener {
-            val intent = Intent(activity, CreateGroupActivity::class.java)
-            startActivity(intent)
-        }
 
         fetchChats()
 
-        view?.findViewById<Button>(R.id.openChat)?.setOnClickListener {
-            fetchUser("gilbert@gmail.com")
-        }
         return view
     }
 
@@ -82,37 +73,11 @@ class ChatFragment : Fragment() {
         val USERID_KEY = "USERID_KEY"
         val USERPIC_KEY = "USERPIC_KEY"
     }
-
-    private fun fetchUser(userEmail: String) {
-        val database = FirebaseDatabase.getInstance().reference
-        val query = database.child("users").orderByChild("email").equalTo(userEmail)
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (child in dataSnapshot.children) {
-                    val firstName = child.child("firstName").value.toString()
-                    val lastName = child.child("lastName").value.toString()
-                    val userId = child.child("uid").value.toString()
-                    val profileUrl = child.child("profileImageUrl").value.toString()
-
-                    val userName = "$firstName $lastName"
-                    val intent = Intent(activity, ChatActivity::class.java)
-                    intent.putExtra(USERPIC_KEY, profileUrl)
-                    intent.putExtra(USERNAME_KEY, userName)
-                    intent.putExtra(USERID_KEY, userId)
-                    startActivity(intent)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
-    }
-
 }
 
-class ChatItem(val text : String, val context: Context): Item<GroupieViewHolder>() {
+class ChatItem(val uid : String, val context: Context): Item<GroupieViewHolder>() {
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-        val database = FirebaseDatabase.getInstance().reference.child("/users/$text")
+        val database = FirebaseDatabase.getInstance().reference.child("/users/$uid")
         database.get().addOnSuccessListener {
             val chatFirstName = it.child("firstName").value.toString()
             val chatLastName = it.child("lastName").value.toString()
@@ -126,21 +91,11 @@ class ChatItem(val text : String, val context: Context): Item<GroupieViewHolder>
                 val intent = Intent(context, ChatActivity::class.java)
                 intent.putExtra(ChatFragment.USERPIC_KEY, chatProfilePic)
                 intent.putExtra(ChatFragment.USERNAME_KEY, chatUserName)
-                intent.putExtra(ChatFragment.USERID_KEY, text)
+                intent.putExtra(ChatFragment.USERID_KEY, uid)
                 context.startActivity(intent)
             }
         }
     }
-
-    private fun fetchUser(
-        userId: String,
-        userName: String,
-        profileUrl: String,
-        viewHolder: GroupieViewHolder
-    ) {
-
-    }
-
 
     override fun getLayout(): Int {
         return R.layout.chat_row
