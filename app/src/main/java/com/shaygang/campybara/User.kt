@@ -20,5 +20,13 @@ class User(val uid: String, val firstName: String, val lastName: String, val pho
                 callback(null)
             }
         }
+
+        fun getNameFromId(userId: String, callback: (String?) -> Unit) {
+            var username : String = ""
+            loadUserFromUid(userId) {user ->
+                username = "${user!!.firstName.toString()} ${user.lastName.toString()}"
+                callback(username)
+            }
+        }
     }
 }
