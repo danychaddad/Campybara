@@ -53,6 +53,9 @@ class ReviewHelper (campsiteId : String) {
     fun getReviewCount() : Int {
         return reviewList.size
     }
+    fun getScoreCounts() : Array<Int> {
+        return reviewScoreCount
+    }
     fun calculateAvg() : Float {
         var totalScore = 0f
         var totalReviews = 0

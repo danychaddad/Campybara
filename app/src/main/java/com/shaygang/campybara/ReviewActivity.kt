@@ -5,18 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.ktx.Firebase
 import com.shaygang.campybara.databinding.ActivityReviewBinding
-import org.w3c.dom.Text
+import kotlin.math.roundToInt
 
 class ReviewActivity : AppCompatActivity() {
     private lateinit var reviewList: ArrayList<Review>
@@ -45,11 +41,35 @@ class ReviewActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.reviewsRatingScore).text = avgRating.toString()
             findViewById<RatingBar>(R.id.avgRatingBar).rating = avgRating
             findViewById<TextView>(R.id.avgRatingText).text = "Based on ${reviewHelper.getReviewCount()} reviews"
+            populateRatingBars(reviewHelper.getScoreCounts())
         }
         val recyclerView: RecyclerView = findViewById(R.id.reviewsRecyclerView)
         val adapter = ReviewAdapter(reviewList)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun populateRatingBars(scoreCounts: Array<Int>) {
+        var progressBars = arrayOf(
+            R.id.reviewsProgress1,
+            R.id.reviewsProgress2,
+            R.id.reviewsProgress3,
+            R.id.reviewsProgress4,
+            R.id.reviewsProgress5
+        )
+        var percentages = arrayOf(
+            R.id.reviewsRatingPrct1,
+            R.id.reviewsRatingPrct2,
+            R.id.reviewsRatingPrct3,
+            R.id.reviewsRatingPrct4,
+            R.id.reviewsRatingPrct5
+        )
+        var total = scoreCounts.sum()
+        for (i in 0..4) {
+            var percentage = scoreCounts[i] * 100.0f/ total
+            findViewById<ProgressBar>(progressBars[i]).progress = percentage.roundToInt()
+            findViewById<TextView>(percentages[i]).text = "${percentage.roundToInt()}%"
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
