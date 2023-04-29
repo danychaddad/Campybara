@@ -167,15 +167,16 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnNewCampsite"
-                    android:background="@drawable/rounded_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="40dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="25dp"
+                    android:background="@drawable/rounded_button"
                     android:backgroundTint="@color/primary"
+                    android:paddingHorizontal="40dp"
                     android:text="@string/create_campsite"
                     android:textColor="@color/beige"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

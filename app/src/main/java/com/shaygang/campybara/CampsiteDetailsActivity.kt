@@ -64,13 +64,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.openGoogleMaps.setOnClickListener {
-            val intentUri = Uri.parse("geo:${campsiteLocation[0]},${campsiteLocation[1]}")
-            val mapIntent = Intent(Intent.ACTION_VIEW, intentUri)
-            startActivity(mapIntent)
-        }
-
-        if (campsiteOwnerUid == FirebaseAuth.getInstance().currentUser?.uid) {
+        if (campsiteOwnerUid == FirebaseAuth.getInstance().currentUser?.uid || age!! < 18) {
             binding.chatOwner.isVisible = false
         }
         binding.chatOwner.setOnClickListener {

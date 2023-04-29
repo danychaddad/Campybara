@@ -16,11 +16,13 @@ import com.google.android.gms.maps.model.MarkerOptions
 class CampsiteDetailsMapsFragment : Fragment() {
 
     private val callback = OnMapReadyCallback { googleMap ->
-        val location = LatLng(0.0, 0.0)
-
-//        val location = LatLng(CampsiteDetailsActivity.CAMPSITE_LOCATION[0], CampsiteDetailsActivity.CAMPSITE_LOCATION[1])
+        val location = LatLng(CampsiteDetailsActivity.CAMPSITE_LOCATION[0], CampsiteDetailsActivity.CAMPSITE_LOCATION[1])
+        googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.uiSettings.isScrollGesturesEnabled = false
+        googleMap.uiSettings.isZoomGesturesEnabled = false
+        googleMap.uiSettings.isRotateGesturesEnabled = false
         googleMap.addMarker(MarkerOptions().position(location).title("Campsite Location"))
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 12f))
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
     }
 
     override fun onCreateView(
