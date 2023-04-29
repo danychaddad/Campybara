@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.shaygang.campybara.User.Companion.loadUserFromUid
 import com.shaygang.campybara.databinding.ActivityCampsiteDetailsBinding
@@ -43,6 +44,10 @@ class CampsiteDetailsActivity : AppCompatActivity() {
             } else {
                 // Handle the error
             }
+        }
+        val reviewHelper = ReviewHelper(campsiteId)
+        reviewHelper.populateReviewList {
+            findViewById<TextView>(R.id.ratingScore).text = reviewHelper.calculateAvg().toString()
         }
         binding.ratingLayout.setOnClickListener{
             val intent = Intent(this, ReviewActivity::class.java)
