@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +41,10 @@ class ReviewActivity : AppCompatActivity() {
         }
         val reviewHelper = ReviewHelper(campsiteId)
         reviewList = reviewHelper.populateReviewList {
-            findViewById<TextView>(R.id.reviewsRatingScore).text = reviewHelper.calculateAvg().toString()
+            val avgRating = reviewHelper.calculateAvg()
+            findViewById<TextView>(R.id.reviewsRatingScore).text = avgRating.toString()
+            findViewById<RatingBar>(R.id.avgRatingBar).rating = avgRating
+            findViewById<TextView>(R.id.avgRatingText).text = "Based on ${reviewHelper.getReviewCount()} reviews"
         }
         val recyclerView: RecyclerView = findViewById(R.id.reviewsRecyclerView)
         val adapter = ReviewAdapter(reviewList)

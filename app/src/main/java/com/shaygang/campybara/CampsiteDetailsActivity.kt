@@ -4,10 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.RatingBar
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.shaygang.campybara.User.Companion.loadUserFromUid
 import com.shaygang.campybara.databinding.ActivityCampsiteDetailsBinding
+import org.w3c.dom.Text
 
 class CampsiteDetailsActivity : AppCompatActivity() {
 
@@ -47,7 +49,10 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         }
         val reviewHelper = ReviewHelper(campsiteId)
         reviewHelper.populateReviewList {
-            findViewById<TextView>(R.id.ratingScore).text = reviewHelper.calculateAvg().toString()
+            val avg = reviewHelper.calculateAvg()
+            findViewById<TextView>(R.id.ratingScore).text = avg.toString()
+            findViewById<RatingBar>(R.id.ratingBar).rating = avg
+            findViewById<TextView>(R.id.ratingText).text = "Based on ${reviewHelper.getReviewCount()} reviews"
         }
         binding.ratingLayout.setOnClickListener{
             val intent = Intent(this, ReviewActivity::class.java)
