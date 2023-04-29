@@ -123,7 +123,7 @@ class CreateCampsiteActivity : AppCompatActivity() {
         var name = binding.csNameET.text.toString()
         var description = binding.csDescET.text.toString()
         var capacity = parseInt(binding.csCapET.text.toString())
-        var location = MapsFragment.CAMPSITE_LOCATION
+        var location = arrayListOf<Double>(MapsFragment.CAMPSITE_LOCATION.latitude, MapsFragment.CAMPSITE_LOCATION.longitude)
 
             val ref = FirebaseDatabase.getInstance().getReference("campsites")
             val campsite = Campsite(name, description, capacity, imageUrl, 2.5, FirebaseAuth.getInstance().currentUser!!.uid, location)
