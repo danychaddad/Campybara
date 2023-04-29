@@ -120,7 +120,8 @@ class SearchFragment : Fragment() {
                         -1,
                         campsiteImageUrl,
                         0.0,
-                        ""
+                        "",
+                        arrayListOf()
                     )
                     Log.d("DB", campsite.name)
                     campsiteArrayList.add(campsite)

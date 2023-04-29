@@ -8,126 +8,202 @@
     android:background="@color/beige"
     android:foreground="?attr/selectableItemBackground">
 
-    <ImageView
-        android:id="@+id/campsiteImage"
-        android:layout_width="0dp"
-        android:layout_height="250dp"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/capy_loading_image" />
+        app:layout_constraintVertical_bias="0.0">
 
-    <TextView
-        android:id="@+id/campsiteName"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="Campsite name goes here"
-        android:textColor="#000000"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/campsiteImage"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ratingLayout"
-        android:layout_width="0dp"
+            <ImageView
+                android:id="@+id/campsiteImage"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/capy_loading_image" />
+
+            <TextView
+                android:id="@+id/campsiteName"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="Campsite name goes here"
+                android:textColor="#000000"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/campsiteImage" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ratingLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/campsiteName">
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/rounded_corner"
+                    android:backgroundTint="@color/white"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:progressTint="@color/primary"
+                    android:rating="3.5"
+                    app:layout_constraintStart_toEndOf="@+id/ratingScore"
+                    app:layout_constraintTop_toTopOf="@+id/ratingScore" />
+
+                <TextView
+                    android:id="@+id/ratingScore"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/rounded_corner"
+                    android:backgroundTint="@color/primary"
+                    android:gravity="center"
+                    android:text="3.8"
+                    android:textColor="@color/beige"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/ratingText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Score based on x ratings"
+                    app:layout_constraintStart_toStartOf="@+id/ratingBar"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ownerLayout"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/rounded_corner"
+                android:backgroundTint="@color/white"
+                android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ratingLayout">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ownerProfilePic"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/ownerName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Owner name goes here"
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/ownerProfilePic"
+                    app:layout_constraintTop_toTopOf="@+id/ownerProfilePic" />
+
+                <TextView
+                    android:id="@+id/ownerEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="Owner's email goes here"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/ownerName"
+                    app:layout_constraintTop_toBottomOf="@+id/ownerName" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <FrameLayout
+                android:id="@+id/campsiteMapLayout"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/campsiteAddress">
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="24dp"
+                android:text="Campsite Location"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ownerLayout" />
+
+
+            <TextView
+                android:id="@+id/campsiteAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/chatOwner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/campsiteName">
-
-        <RatingBar
-            android:id="@+id/ratingBar"
-            style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="7dp"
-            android:background="@drawable/rounded_corner"
-            android:backgroundTint="@color/white"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:progressTint="@color/primary"
-            android:rating="3.5"
-            app:layout_constraintStart_toEndOf="@+id/ratingScore"
-            app:layout_constraintTop_toTopOf="@+id/ratingScore" />
-
-        <TextView
-            android:id="@+id/ratingScore"
-            android:layout_width="60dp"
-            android:layout_height="50dp"
-            android:background="@drawable/rounded_corner"
-            android:backgroundTint="@color/primary"
-            android:gravity="center"
-            android:text="3.8"
-            android:textColor="@color/beige"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/ratingText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Score based on x ratings"
-            app:layout_constraintStart_toStartOf="@+id/ratingBar"
-            app:layout_constraintTop_toBottomOf="@+id/ratingBar" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ownerLayout"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/rounded_corner"
-        android:backgroundTint="@color/white"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
         android:clickable="true"
-        android:foreground="?attr/selectableItemBackground"
+        app:backgroundTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingLayout">
+        app:srcCompat="@drawable/baseline_chat_24" />
 
-        <ImageView
-            android:id="@+id/ownerProfilePic"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/ownerName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="Owner name goes here"
-            android:textAlignment="viewStart"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/ownerProfilePic"
-            app:layout_constraintTop_toTopOf="@+id/ownerProfilePic" />
 
-        <TextView
-            android:id="@+id/ownerEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Owner's email goes here"
-            app:layout_constraintStart_toStartOf="@+id/ownerName"
-            app:layout_constraintTop_toBottomOf="@+id/ownerName" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

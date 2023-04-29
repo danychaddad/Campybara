@@ -16,46 +16,32 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
     private lateinit var databaseRef: DatabaseReference
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var adapter: CampsiteAdapter
     private lateinit var recyclerView: RecyclerView
-    private var param1: String? = null
-    private var param2: String? = null
-    private lateinit var campsiteMap : MutableMap<Campsite,String>
     private var campsiteList : ArrayList<Campsite> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseRef = firebaseDatabase.getReference("campsites")
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        firebaseDatabase = FirebaseDatabase.getInstance()
+        databaseRef = firebaseDatabase.getReference("campsites")
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        campsiteList.clear()
+        campsiteMap.clear()
         campsiteInitialize()
         val layoutManager = LinearLayoutManager(context)
         recyclerView = view.findViewById(R.id.recyclerView)
@@ -63,27 +49,6 @@ class HomeFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         adapter = CampsiteAdapter(campsiteMap, campsiteList, requireContext())
         recyclerView.adapter = adapter
-    }
-
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 
     private fun campsiteInitialize() {
@@ -96,7 +61,12 @@ class HomeFragment : Fragment() {
                     val imageUrl = childSnapshot.child("imageUrl").value.toString()
                     val campsiteName = childSnapshot.child("name").value.toString()
                     val ownerUid = childSnapshot.child("ownerUID").value.toString()
-                    val campsite = Campsite(campsiteName, " ",-1,imageUrl,3.5,ownerUid)
+                    val locationLat = childSnapshot.child("location").child("latitude").value as Double
+                    val locationLng = childSnapshot.child("location").child("longitude").value  as Double
+                    val location = ArrayList<Double>()
+                    location.add(locationLat)
+                    location.add(locationLng)
+                    val campsite = Campsite(campsiteName, " ",-1,imageUrl,3.5,ownerUid, location)
                     Log.d("DB", campsite.name)
                     campsiteList.add(campsite)
                     campsiteMap[campsite] = childSnapshot.key.toString()

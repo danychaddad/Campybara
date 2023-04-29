@@ -158,7 +158,7 @@ class CreateGroupActivity : AppCompatActivity() {
                     Log.d("CreateGroupActivity", "Image could not be uploaded !!")
                 }
         } else {
-            confirmGroupCreation("gs://campybara-f185f.appspot.com/images_campsite/campy.jpg")
+            confirmGroupCreation("https://firebasestorage.googleapis.com/v0/b/campybara-f185f.appspot.com/o/images_profile%2Fdefault_pp.jpg?alt=media&token=b2dc37b3-51f6-46f8-995f-231a779410a2")
         }
     }
 

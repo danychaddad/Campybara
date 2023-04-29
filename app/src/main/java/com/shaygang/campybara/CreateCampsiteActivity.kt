@@ -21,6 +21,7 @@ import java.util.*
 
 class CreateCampsiteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateCampsiteBinding
+    private lateinit var fragment: MapsFragment
     private var imageUri: Uri? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +30,18 @@ class CreateCampsiteActivity : AppCompatActivity() {
         binding = ActivityCreateCampsiteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        fragment = MapsFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.mapLayout, fragment).commit()
+
+        binding.saveLocationBtn.setOnClickListener {
+            binding.geolocationTextView.text = MapsFragment.CAMPSITE_ADDRESS
+        }
+
         binding.confirmBtn.setOnClickListener {
             var name = binding.csNameET.text.toString()
             var description = binding.csDescET.text.toString()
             var capacity : Int
+            var address = binding.geolocationTextView.text.toString()
 
             if (name.isEmpty() || description.isEmpty()) {
                 Toast.makeText(this, "Name and description cannot be blank!", Toast.LENGTH_SHORT).show()
@@ -47,7 +56,12 @@ class CreateCampsiteActivity : AppCompatActivity() {
                     Toast.makeText(this, "Capacity must be greater than 0!", Toast.LENGTH_SHORT)
                         .show()
                 } else {
-                    uploadImageToFirebaseStorage()
+                    if (address.isEmpty()) {
+                        Toast.makeText(this, "Save your campsite's location !!", Toast.LENGTH_SHORT).show()
+
+                    } else {
+                        uploadImageToFirebaseStorage()
+                    }
                 }
             }
         }
@@ -109,9 +123,10 @@ class CreateCampsiteActivity : AppCompatActivity() {
         var name = binding.csNameET.text.toString()
         var description = binding.csDescET.text.toString()
         var capacity = parseInt(binding.csCapET.text.toString())
+        var location = arrayListOf<Double>(MapsFragment.CAMPSITE_LOCATION.latitude, MapsFragment.CAMPSITE_LOCATION.longitude)
 
             val ref = FirebaseDatabase.getInstance().getReference("campsites")
-            val campsite = Campsite(name, description, capacity, imageUrl, 2.5, FirebaseAuth.getInstance().currentUser!!.uid)
+            val campsite = Campsite(name, description, capacity, imageUrl, 2.5, FirebaseAuth.getInstance().currentUser!!.uid, location)
             ref.push().setValue(campsite).addOnSuccessListener {
                 Toast.makeText(this,"Successfully added campsite!", Toast.LENGTH_SHORT).show()
 

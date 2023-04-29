@@ -1,10 +1,12 @@
 package com.shaygang.campybara
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -13,10 +15,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-
-// mongodb
-// username : application
-// password : fd2mZeDzVQ4rPvNY
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.Period
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Locale
 
 var firstName: String? = null
 var lastName: String? = null
@@ -24,6 +28,7 @@ var email: String? = null
 var phoneNb: String? = null
 var dateOfBirth: String? = null
 var profileImageUrl: String? = null
+var age: Int? = null
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var databaseRef : DatabaseReference
     private lateinit var user : FirebaseUser
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -57,12 +63,14 @@ class MainActivity : AppCompatActivity() {
                         phoneNb = dataSnapshot.child("phoneNb").value.toString()
                         dateOfBirth = dataSnapshot.child("dateOfBirth").value.toString()
                         profileImageUrl = dataSnapshot.child("profileImageUrl").value.toString()
+                        age = calculateAge(dateOfBirth!!)
                     }
                 }
             }
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
         user = FirebaseAuth.getInstance().currentUser!!
@@ -78,6 +86,7 @@ class MainActivity : AppCompatActivity() {
                         phoneNb = dataSnapshot.child("phoneNb").value.toString()
                         dateOfBirth = dataSnapshot.child("dateOfBirth").value.toString()
                         profileImageUrl = dataSnapshot.child("profileImageUrl").value.toString()
+                        age = calculateAge(dateOfBirth!!)
                     }
                 }
             }
@@ -102,6 +111,7 @@ class MainActivity : AppCompatActivity() {
                     phoneNb = null
                     dateOfBirth = null
                     profileImageUrl = null
+                    age = null
 
                     firebaseAuth = FirebaseAuth.getInstance()
                     firebaseAuth.signOut()
@@ -113,5 +123,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun calculateAge(dateString: String): Int {
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val birthDate = LocalDate.parse(dateString, formatter)
+        val currentDate = LocalDate.now()
+        val res = Period.between(birthDate, currentDate).years
+        return res
     }
 }

@@ -1,11 +1,17 @@
 package com.shaygang.campybara
 
+import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +19,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -50,8 +57,37 @@ class ProfileFragment : Fragment() {
         val removeProfilePic = view?.findViewById<ImageView>(R.id.removeProfilePic)
 
         view.findViewById<Button>(R.id.btnNewCampsite)?.setOnClickListener {
-            val intent = Intent(activity, CreateCampsiteActivity::class.java)
-            startActivity(intent)
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    MapsFragment.LOCATION_REQUEST_CODE
+                )
+
+            } else {
+                // Check if GPS is enabled
+                val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    // GPS is not enabled, show a dialog to ask the user to enable it
+                    val builder = AlertDialog.Builder(requireContext())
+                    builder.setTitle("Enable GPS")
+                        .setMessage("Please enable GPS to create a campsite.")
+                        .setPositiveButton("OK") { _, _ ->
+                            // Open the GPS settings screen
+                            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                            startActivity(intent)
+                        }
+                        .setNegativeButton("Cancel") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                    val dialog = builder.create()
+                    dialog.show()
+
+                } else {
+                    val intent = Intent(activity, CreateCampsiteActivity::class.java)
+                    startActivity(intent)
+                }
+            }
         }
 
         firstNameField?.text = firstName
