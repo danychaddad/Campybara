@@ -6,4 +6,18 @@
         <item name="android:windowFullscreen">true</item>
 
     </style>
+
+    <style name="CustomDatePicker" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:datePickerMode">calendar</item>
+        <item name="android:headerBackground">@color/primary</item>
+        <item name="android:calendarTextColor">@color/black</item>
+        <item name="android:dayOfWeekBackground">@color/primary</item>
+        <item name="android:dateTextAppearance">@style/CustomDatePickerDay</item>
+        <item name="android:weekNumberColor">@color/black</item>
+    </style>
+
+    <style name="CustomDatePickerDay">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:state_selected">@color/white</item>
+    </style>
 </resources>

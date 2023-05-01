@@ -22,4 +22,9 @@
     <string name="save_changes">Save Changes</string>
     <string name="create_campsite">Create Campsite</string>
     <string name="el_maisone_del_capy">El maisone del Capy</string>
+    <string-array name="reservation_spinner">
+        <item>Group One</item>
+        <item>Group Two</item>
+        <item>Group Three</item>
+    </string-array>
 </resources>

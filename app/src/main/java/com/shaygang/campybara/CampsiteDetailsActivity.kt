@@ -1,14 +1,24 @@
 package com.shaygang.campybara
 
+import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.Window
+import android.widget.Button
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -17,17 +27,20 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.shaygang.campybara.User.Companion.loadUserFromUid
 import com.shaygang.campybara.databinding.ActivityCampsiteDetailsBinding
-import org.w3c.dom.Text
-import java.util.Locale
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.*
+
 
 class CampsiteDetailsActivity : AppCompatActivity() {
 
-    private lateinit var campsiteName : String
-    private lateinit var campsiteImageUrl : String
+    private lateinit var campsiteName: String
+    private lateinit var campsiteImageUrl: String
     private lateinit var binding: ActivityCampsiteDetailsBinding
-    private lateinit var campsiteOwnerUid : String
-    private lateinit var campsiteOwner : User
-    private lateinit var campsiteId : String
+    private lateinit var campsiteOwnerUid: String
+    private lateinit var campsiteOwner: User
+    private lateinit var campsiteId: String
     private lateinit var campsiteLocation: ArrayList<Double>
     private lateinit var fragment: CampsiteDetailsMapsFragment
     private lateinit var geocoder: Geocoder
@@ -37,42 +50,21 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_campsite_details)
         binding = ActivityCampsiteDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         val extras = intent.extras
-        campsiteName = extras!!.getString("campsiteName")!!
-        campsiteImageUrl = extras.getString("imageUrl")!!
-        campsiteOwnerUid = extras.getString("ownerUid")!!
-        campsiteId = extras.getString("campsiteId")!!
+        loadExtras(extras)
         supportActionBar?.title = campsiteName
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
-        campsiteLocation = extras.get("campsiteLocation") as ArrayList<Double>
         val titleTextView = binding.campsiteName
-        Glide.with(this).load(campsiteImageUrl).placeholder(R.drawable.capy_loading_image).into(binding.campsiteImage)
+        Glide.with(this).load(campsiteImageUrl).placeholder(R.drawable.capy_loading_image)
+            .into(binding.campsiteImage)
         titleTextView.text = campsiteName
-        loadUserFromUid(campsiteOwnerUid) { user ->
-            if (user != null) {
-                // TODO: Add a shimmer effect loading
-                campsiteOwner = user
-                val ownerFullName = user.firstName + " " + user.lastName
-                binding.ownerName.text = ownerFullName
-                binding.ownerEmail.text = user.email
-                Glide.with(this).load(user.profileImageUrl).placeholder(R.drawable.capy_loading_image).into(binding.ownerProfilePic)
-            } else {
-                // Handle the error
-            }
-        }
-        val reviewHelper = ReviewHelper(campsiteId)
-        reviewHelper.populateReviewList {
-            val avg = reviewHelper.calculateAvg()
-            findViewById<TextView>(R.id.ratingScore).text = avg.toString()
-            findViewById<RatingBar>(R.id.ratingBar).rating = avg
-            findViewById<TextView>(R.id.ratingText).text = "Based on ${reviewHelper.getReviewCount()} reviews"
-        }
-        binding.ratingLayout.setOnClickListener{
+        loadOwner()
+        loadReviews()
+        binding.ratingLayout.setOnClickListener {
             val intent = Intent(this, ReviewActivity::class.java)
-            intent.putExtra("campsiteId",campsiteId)
-            intent.putExtra("campsiteName",campsiteName)
+            intent.putExtra("campsiteId", campsiteId)
+            intent.putExtra("campsiteName", campsiteName)
             startActivity(intent)
         }
 
@@ -82,14 +74,97 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         binding.chatOwner.setOnClickListener {
             fetchUser(campsiteOwnerUid)
         }
+        loadMap()
+        binding.reserveCampsiteBtn.setOnClickListener {
+            reserveCampsiteDialog()
+        }
+    }
 
+    private fun loadMap() {
         CAMPSITE_LOCATION = campsiteLocation
         fragment = CampsiteDetailsMapsFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.campsiteMapLayout, fragment).commit()
-
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                // perform any long-running operations here, such as loading data from a network or database
+                supportFragmentManager.beginTransaction().replace(R.id.campsiteMapLayout, fragment)
+                    .commit()
+            }
+        }
         geocoder = Geocoder(this, Locale.getDefault())
-        val address =  geocoder.getFromLocation(campsiteLocation[0], campsiteLocation[1], 1)
+        val address = geocoder.getFromLocation(campsiteLocation[0], campsiteLocation[1], 1)
         binding.campsiteAddress.text = address?.get(0)?.getAddressLine(0).toString()
+    }
+
+    private fun reserveCampsiteDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.reservation_dialog_group)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.findViewById<Button>(R.id.resDialogGroupCancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.findViewById<Button>(R.id.resDialogGroupNext).setOnClickListener {
+            dialog.setContentView(R.layout.reservation_dialog_date)
+            dialog.findViewById<TextView>(R.id.resDialogDateTxt).text = "Enter Reservation Start Date"
+            dialog.findViewById<Button>(R.id.resDialogDateCancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.findViewById<Button>(R.id.resDialogDateNext).setOnClickListener {
+                dialog.setContentView(R.layout.reservation_dialog_date)
+                dialog.findViewById<TextView>(R.id.resDialogDateTxt).text = "Enter Reservation End Date"
+                dialog.findViewById<Button>(R.id.resDialogDateCancel).setOnClickListener {
+                    dialog.dismiss()
+                }
+                dialog.findViewById<Button>(R.id.resDialogDateNext).setOnClickListener {
+                    dialog.setContentView(R.layout.reservation_dialog_confirmation)
+                    dialog.findViewById<Button>(R.id.resDialogConfirmCancel).setOnClickListener {
+                        dialog.dismiss()
+                    }
+                    dialog.findViewById<Button>(R.id.resDialogConfirmFinish).setOnClickListener {
+                        Toast.makeText(this,"Successfully sent reservation!",Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                }
+            }
+        }
+        dialog.show()
+        dialog.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
+    }
+
+    private fun loadExtras(extras: Bundle?) {
+        campsiteName = extras!!.getString("campsiteName")!!
+        campsiteImageUrl = extras.getString("imageUrl")!!
+        campsiteOwnerUid = extras.getString("ownerUid")!!
+        campsiteId = extras.getString("campsiteId")!!
+        campsiteLocation = extras.get("campsiteLocation") as ArrayList<Double>
+    }
+
+    private fun loadReviews() {
+        val reviewHelper = ReviewHelper(campsiteId)
+        reviewHelper.populateReviewList {
+            val avg = reviewHelper.calculateAvg()
+            findViewById<TextView>(R.id.ratingScore).text = avg.toString()
+            findViewById<RatingBar>(R.id.ratingBar).rating = avg
+            findViewById<TextView>(R.id.ratingText).text =
+                "Based on ${reviewHelper.getReviewCount()} reviews"
+        }
+    }
+
+    private fun loadOwner() {
+        loadUserFromUid(campsiteOwnerUid) { user ->
+            if (user != null) {
+                // TODO: Add a shimmer effect loading
+                campsiteOwner = user
+                val ownerFullName = user.firstName + " " + user.lastName
+                findViewById<TextView>(R.id.ownerName).text = ownerFullName
+                findViewById<TextView>(R.id.ownerEmail).text = user.email
+                Glide.with(this).load(user.profileImageUrl)
+                    .placeholder(R.drawable.capy_loading_image).into(findViewById(R.id.ownerProfilePic))
+            } else {
+                // Handle the error
+            }
+        }
     }
 
     private fun fetchUser(uid: String) {
@@ -120,6 +195,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
     companion object {
         lateinit var CAMPSITE_LOCATION: ArrayList<Double>
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

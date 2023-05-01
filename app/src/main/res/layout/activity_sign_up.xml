@@ -119,7 +119,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/button"
+                android:id="@+id/signUnBtn"
                 android:background="@drawable/rounded_button"
                 android:paddingHorizontal="50dp"
                 android:layout_width="wrap_content"
@@ -135,7 +135,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/confirmPasswordLayout" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/signInTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
@@ -146,7 +146,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button" />
+                app:layout_constraintTop_toBottomOf="@+id/signUnBtn" />
 
             <Button
                 android:id="@+id/selectPhoto"

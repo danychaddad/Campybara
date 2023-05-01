@@ -31,7 +31,7 @@ class SignUpActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        binding.textView.setOnClickListener {
+        binding.signInTxt.setOnClickListener {
             val intent = Intent(this, SignInActivity::class.java)
             startActivity(intent)
         }
@@ -42,7 +42,7 @@ class SignUpActivity : AppCompatActivity() {
             startActivityForResult(intent, 0)
         }
 
-        binding.button.setOnClickListener {
+        binding.signUnBtn.setOnClickListener {
             performRegister()
         }
 
