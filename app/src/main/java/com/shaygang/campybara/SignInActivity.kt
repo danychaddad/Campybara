@@ -3,6 +3,7 @@ package com.shaygang.campybara
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -37,6 +38,7 @@ class SignInActivity : AppCompatActivity() {
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
                         user = FirebaseAuth.getInstance().currentUser!!
+                        if (user.isEmailVerified) {
                         databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
                         databaseRef.get().addOnCompleteListener {res ->
                             if (res.isSuccessful) {
@@ -51,7 +53,22 @@ class SignInActivity : AppCompatActivity() {
                         }
 
                         val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
+                        startActivity(intent)}
+                        else {
+                            val builder = AlertDialog.Builder(this)
+                            builder.setMessage("Your email is unverified, would you like to resend the verification email?")
+                            builder.setPositiveButton("Resend Verification Email") { _, _ ->
+                                // Call the resendVerification() function here
+                                resendVerification()
+                            }
+                            builder.setNegativeButton("Cancel") { dialog, _ ->
+                                // Close the dialog
+                                dialog.dismiss()
+                            }
+                            val dialog = builder.create()
+                            dialog.show()
+
+                        }
                     } else {
                         Toast.makeText(this, "Sign In Unsuccessful !!", Toast.LENGTH_SHORT).show()
                     }
@@ -75,6 +92,10 @@ class SignInActivity : AppCompatActivity() {
                 Toast.makeText(this, "Insert email address !!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun resendVerification() {
+        firebaseAuth.currentUser!!.sendEmailVerification()
     }
 
     override fun onStart() {

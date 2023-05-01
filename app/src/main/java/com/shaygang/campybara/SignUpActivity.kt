@@ -100,8 +100,10 @@ class SignUpActivity : AppCompatActivity() {
         if (firstName.isNotEmpty() && lastName.isNotEmpty() && phoneNb.isNotEmpty() && dateOfBirth.isNotEmpty()
             && email.isNotEmpty() && pass.isNotEmpty() && confirmPass.isNotEmpty()) {
             if (pass == confirmPass) {
+
                 firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
+                         firebaseAuth.currentUser!!.sendEmailVerification()
                         uploadImageToFirebaseStorage()
                     } else {
                         Toast.makeText(this, "Email taken or invalid !!", Toast.LENGTH_SHORT).show()
@@ -156,7 +158,7 @@ class SignUpActivity : AppCompatActivity() {
         val user = User(uid, firstName, lastName, phoneNb, dateOfBirth, email, profileImageUrl)
         ref.child(uid).setValue(user)
             .addOnSuccessListener {
-                Toast.makeText(this, "Sign Up Successful !!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Sign up successful. Check your inbox to verify your email!", Toast.LENGTH_LONG).show()
                 exitSignUpActivity()
             }
             .addOnFailureListener {
