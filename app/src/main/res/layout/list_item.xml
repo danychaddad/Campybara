@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="20dp"
     android:background="@drawable/rounded_corner"
-    android:backgroundTint="@color/beige"
     android:foreground="?attr/selectableItemBackground"
+    android:elevation="8dp"
+    android:outlineProvider="bounds"
     android:paddingBottom="10dp">
 
     <com.shaygang.campybara.RoundedImageView
@@ -17,6 +19,8 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:adjustViewBounds="false"
+        android:scaleType="fitXY"
+        android:background="@drawable/rounded_corner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
