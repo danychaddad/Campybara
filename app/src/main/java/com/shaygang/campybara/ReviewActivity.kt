@@ -1,9 +1,13 @@
 package com.shaygang.campybara
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.RatingBar
@@ -12,12 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.FirebaseDatabase
 import com.shaygang.campybara.databinding.ActivityReviewBinding
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 class ReviewActivity : AppCompatActivity() {
     private lateinit var reviewList: ArrayList<Review>
     private lateinit var binding : ActivityReviewBinding
-    private lateinit var campsiteId : String;
+    private lateinit var campsiteId : String
     private lateinit var firebaseDatabase: FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +49,12 @@ class ReviewActivity : AppCompatActivity() {
             findViewById<TextView>(R.id.avgRatingText).text = "Based on ${reviewHelper.getReviewCount()} reviews"
             populateRatingBars(reviewHelper.getScoreCounts())
         }
+        getReviews()
+
+    }
+
+
+    private fun getReviews() {
         val recyclerView: RecyclerView = findViewById(R.id.reviewsRecyclerView)
         val adapter = ReviewAdapter(reviewList)
         recyclerView.adapter = adapter

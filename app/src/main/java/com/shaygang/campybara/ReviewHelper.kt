@@ -2,6 +2,7 @@ package com.shaygang.campybara
 
 import android.util.Log
 import com.google.firebase.database.*
+import com.shaygang.campybara.databinding.ActivityReviewBinding
 
 class ReviewHelper (campsiteId : String) {
     private var reviewList : ArrayList<Review> = arrayListOf()
@@ -47,9 +48,6 @@ class ReviewHelper (campsiteId : String) {
         reviewScoreCount[closestRating - 1]++
     }
 
-    fun getReviewList() : ArrayList<Review> {
-        return reviewList
-    }
     fun getReviewCount() : Int {
         return reviewList.size
     }
