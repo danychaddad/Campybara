@@ -9,10 +9,14 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.shaygang.campybara.databinding.ActivityCreateCampsiteBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.lang.Integer.parseInt
@@ -30,8 +34,13 @@ class CreateCampsiteActivity : AppCompatActivity() {
         binding = ActivityCreateCampsiteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        fragment = MapsFragment()
-        supportFragmentManager.beginTransaction().replace(R.id.mapLayout, fragment).commit()
+        lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val fragment = MapsFragment()
+                // perform any long-running operations here, such as loading data from a network or database
+                supportFragmentManager.beginTransaction().replace(R.id.mapLayout, fragment).commit()
+            }
+        }
 
         binding.saveLocationBtn.setOnClickListener {
             binding.geolocationTextView.text = MapsFragment.CAMPSITE_ADDRESS
