@@ -109,20 +109,45 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         dialog.findViewById<Button>(R.id.resDialogGroupNext).setOnClickListener {
             dialog.setContentView(R.layout.reservation_dialog_date)
             dialog.findViewById<TextView>(R.id.resDialogDateTxt).text = "Enter Reservation Start Date"
+            val selectedFromDate = Date()
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+            val calendarDateSelect = dialog.findViewById<CalendarView>(R.id.resDialogDateSelect)
+            var startDate: Date? = null
+            calendarDateSelect.setOnDateChangeListener { calendarView, year, month, day ->
+                selectedFromDate.time = calendar.timeInMillis
+                startDate = Calendar.getInstance().apply {
+                    set(year, month, day, 0, 0, 0)
+                    set(Calendar.MILLISECOND, 0)
+                }.time
+            }
             dialog.findViewById<Button>(R.id.resDialogDateCancel).setOnClickListener {
                 dialog.dismiss()
             }
             dialog.findViewById<Button>(R.id.resDialogDateNext).setOnClickListener {
-                calendarView = dialog.findViewById(R.id.resDialogDateSelect)
-                var selectedFromDate : Date  = Date(calendarView.date)
                 dialog.setContentView(R.layout.reservation_dialog_date)
+                calendarView = dialog.findViewById<CalendarView>(R.id.resDialogDateSelect)
                 dialog.findViewById<TextView>(R.id.resDialogDateTxt).text = "Enter Reservation End Date"
+                val minDate = Calendar.getInstance().apply {
+                    time = startDate
+                    add(Calendar.DAY_OF_MONTH, 1)
+                }.timeInMillis
+                val maxDate = Calendar.getInstance().apply {
+                    time = startDate
+                    add(Calendar.DAY_OF_MONTH, 14)
+                }.timeInMillis
+                calendarView.minDate = minDate
+                calendarView.maxDate = maxDate
                 dialog.findViewById<Button>(R.id.resDialogDateCancel).setOnClickListener {
                     dialog.dismiss()
                 }
+                var selectedToDate : Date = Date()
+                dialog.findViewById<CalendarView>(R.id.resDialogDateSelect).setOnDateChangeListener { calendarView, year, month, day ->
+                    val calendar = Calendar.getInstance()
+                    calendar.set(year,month,day)
+                    selectedToDate.time = calendar.timeInMillis
+                }
                 dialog.findViewById<Button>(R.id.resDialogDateNext).setOnClickListener {
-                    calendarView = dialog.findViewById<CalendarView>(R.id.resDialogDateSelect)
-                    var selectedToDate : Date = Date()
                     dialog.setContentView(R.layout.reservation_dialog_confirmation)
                     dialog.findViewById<TextView>(R.id.resDialogConfirmFromDate).text = selectedFromDate.toString()
                     dialog.findViewById<TextView>(R.id.resDialogConfirmToDate).text = selectedToDate.toString()

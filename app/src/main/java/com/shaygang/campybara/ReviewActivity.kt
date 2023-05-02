@@ -79,6 +79,7 @@ class ReviewActivity : AppCompatActivity() {
         var total = scoreCounts.sum()
         for (i in 0..4) {
             var percentage = scoreCounts[i] * 100.0f/ total
+            if (percentage.isNaN()) continue;
             findViewById<ProgressBar>(progressBars[i]).progress = percentage.roundToInt()
             findViewById<TextView>(percentages[i]).text = "${percentage.roundToInt()}%"
         }
