@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.Window
 import android.widget.Button
 import android.widget.CalendarView
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -45,7 +46,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
     private lateinit var campsiteLocation: ArrayList<Double>
     private lateinit var fragment: CampsiteDetailsMapsFragment
     private lateinit var geocoder: Geocoder
-
+    private lateinit var groupId : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_campsite_details)
@@ -62,6 +63,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         titleTextView.text = campsiteName
         loadOwner()
         loadReviews()
+        groupId = "testGroup"
         binding.ratingLayout.setOnClickListener {
             val intent = Intent(this, ReviewActivity::class.java)
             intent.putExtra("campsiteId", campsiteId)
@@ -99,6 +101,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
     private fun reserveCampsiteDialog() {
         val dialog = Dialog(this)
         var calendarView : CalendarView
+        var visitors : Int = 0
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.reservation_dialog_group)
@@ -107,6 +110,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
             dialog.dismiss()
         }
         dialog.findViewById<Button>(R.id.resDialogGroupNext).setOnClickListener {
+            visitors = dialog.findViewById<EditText>(R.id.resDialogGroupVisitors).text.toString().toInt()
             dialog.setContentView(R.layout.reservation_dialog_date)
             dialog.findViewById<TextView>(R.id.resDialogDateTxt).text = "Enter Reservation Start Date"
             val selectedFromDate = Date()
@@ -155,8 +159,20 @@ class CampsiteDetailsActivity : AppCompatActivity() {
                         dialog.dismiss()
                     }
                     dialog.findViewById<Button>(R.id.resDialogConfirmFinish).setOnClickListener {
+                        val request = ReservationRequest(
+                            campsiteId,
+                            campsiteOwnerUid,
+                            FirebaseAuth.getInstance().currentUser!!.uid,
+                            groupId,
+                            selectedFromDate,
+                            selectedToDate,
+                            visitors
+                        )
+                        val ref = FirebaseDatabase.getInstance().getReference("campsites/$campsiteId/reservationRequests")
+                        ref.push().setValue(request).addOnSuccessListener {
                         Toast.makeText(this,"Successfully sent reservation!",Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
+                        }
                     }
                 }
             }

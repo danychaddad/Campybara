@@ -39,6 +39,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/resDialogGroupTxt" />
 
+        <EditText
+            android:id="@+id/resDialogGroupVisitors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="4"
+            android:hint="Visitors"
+            android:inputType="number"
+            android:numeric="integer"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@+id/resDialogGroupSpinner"
+            app:layout_constraintStart_toStartOf="@+id/resDialogGroupSpinner"
+            app:layout_constraintTop_toBottomOf="@+id/resDialogGroupSpinner" />
+
         <Button
             android:id="@+id/resDialogGroupCancel"
             android:layout_width="wrap_content"
@@ -48,7 +62,7 @@
             android:text="Cancel"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/resDialogGroupSpinner" />
+            app:layout_constraintTop_toBottomOf="@+id/resDialogGroupVisitors" />
 
         <Button
             android:id="@+id/resDialogGroupNext"
