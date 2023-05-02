@@ -154,8 +154,10 @@ class SignUpActivity : AppCompatActivity() {
         val phoneNb = binding.phoneNumber.text.toString()
         val dateOfBirth = binding.dateOfBirth.text.toString()
         val email = binding.emailEt.text.toString()
+        val isOwner = false
+        val isAdmin = false
 
-        val user = User(uid, firstName, lastName, phoneNb, dateOfBirth, email, profileImageUrl)
+        val user = User(uid, firstName, lastName, phoneNb, dateOfBirth, email, profileImageUrl, isAdmin, isOwner)
         ref.child(uid).setValue(user)
             .addOnSuccessListener {
                 Toast.makeText(this, "Sign up successful. Check your inbox to verify your email!", Toast.LENGTH_LONG).show()
