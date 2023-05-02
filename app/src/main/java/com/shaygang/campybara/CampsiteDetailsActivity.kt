@@ -107,14 +107,17 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         dialog.setContentView(R.layout.reservation_dialog_group)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.findViewById<Button>(R.id.resDialogGroupCancel).setOnClickListener {
+            // Cancel button
             dialog.dismiss()
         }
         dialog.findViewById<Button>(R.id.resDialogGroupNext).setOnClickListener {
+            // User chooses Group and number of visitors to the campsite, moves on to date selection
             visitors = dialog.findViewById<EditText>(R.id.resDialogGroupVisitors).text.toString().toInt()
             dialog.setContentView(R.layout.reservation_dialog_date)
             dialog.findViewById<TextView>(R.id.resDialogDateTxt).text = "Enter Reservation Start Date"
             val selectedFromDate = Date()
             val calendar = Calendar.getInstance()
+            // Force the date to be at least the day after the current date
             calendar.add(Calendar.DAY_OF_MONTH, 1)
             val calendarDateSelect = dialog.findViewById<CalendarView>(R.id.resDialogDateSelect)
             var startDate: Date? = null
@@ -125,24 +128,31 @@ class CampsiteDetailsActivity : AppCompatActivity() {
                     set(Calendar.MILLISECOND, 0)
                 }.time
             }
+
             dialog.findViewById<Button>(R.id.resDialogDateCancel).setOnClickListener {
+                // Cancel button
                 dialog.dismiss()
             }
+
             dialog.findViewById<Button>(R.id.resDialogDateNext).setOnClickListener {
+                // User selected and confirmed start date,user now selects end date
                 dialog.setContentView(R.layout.reservation_dialog_date)
                 calendarView = dialog.findViewById<CalendarView>(R.id.resDialogDateSelect)
                 dialog.findViewById<TextView>(R.id.resDialogDateTxt).text = "Enter Reservation End Date"
                 val minDate = Calendar.getInstance().apply {
+                    // Minimum endDate is startDate + 1
                     time = startDate
                     add(Calendar.DAY_OF_MONTH, 1)
                 }.timeInMillis
                 val maxDate = Calendar.getInstance().apply {
+                    // Maximum endDate is startDate + 14 (can be added as a campsite setting)
                     time = startDate
                     add(Calendar.DAY_OF_MONTH, 14)
                 }.timeInMillis
                 calendarView.minDate = minDate
                 calendarView.maxDate = maxDate
                 dialog.findViewById<Button>(R.id.resDialogDateCancel).setOnClickListener {
+                    // Cancel button
                     dialog.dismiss()
                 }
                 var selectedToDate : Date = Date()
@@ -152,13 +162,16 @@ class CampsiteDetailsActivity : AppCompatActivity() {
                     selectedToDate.time = calendar.timeInMillis
                 }
                 dialog.findViewById<Button>(R.id.resDialogDateNext).setOnClickListener {
+                    // User confirms end date, now moves on to recap screen
                     dialog.setContentView(R.layout.reservation_dialog_confirmation)
                     dialog.findViewById<TextView>(R.id.resDialogConfirmFromDate).text = selectedFromDate.toString()
                     dialog.findViewById<TextView>(R.id.resDialogConfirmToDate).text = selectedToDate.toString()
                     dialog.findViewById<Button>(R.id.resDialogConfirmCancel).setOnClickListener {
+                        // Cancel button
                         dialog.dismiss()
                     }
                     dialog.findViewById<Button>(R.id.resDialogConfirmFinish).setOnClickListener {
+                        // User wants to proceed with request
                         val request = ReservationRequest(
                             campsiteId,
                             campsiteOwnerUid,
@@ -170,6 +183,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
                         )
                         val ref = FirebaseDatabase.getInstance().getReference("campsites/$campsiteId/reservationRequests")
                         ref.push().setValue(request).addOnSuccessListener {
+                            // Once the object is pushed to the database, display a success message
                         Toast.makeText(this,"Successfully sent reservation!",Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                         }
