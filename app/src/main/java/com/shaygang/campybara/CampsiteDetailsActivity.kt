@@ -1,6 +1,5 @@
 package com.shaygang.campybara
 
-import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -8,15 +7,14 @@ import android.graphics.drawable.ColorDrawable
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.CalendarView
 import android.widget.EditText
-import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -57,6 +55,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         supportActionBar?.title = campsiteName
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
+        setFavButton()
         val titleTextView = binding.campsiteName
         Glide.with(this).load(campsiteImageUrl).placeholder(R.drawable.capy_loading_image)
             .into(binding.campsiteImage)
@@ -71,6 +70,13 @@ class CampsiteDetailsActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.addCampsiteToFavBtn.setOnClickListener {
+            addCampsiteToFavorites()
+        }
+        binding.removeCampsiteFromFavBtn.setOnClickListener {
+            removeCampsiteFromFavorites()
+        }
+
         if (campsiteOwnerUid == FirebaseAuth.getInstance().currentUser?.uid || age!! < 18) {
             binding.chatOwner.isVisible = false
         }
@@ -80,6 +86,55 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         loadMap()
         binding.reserveCampsiteBtn.setOnClickListener {
             reserveCampsiteDialog()
+        }
+    }
+
+    private fun removeCampsiteFromFavorites() {
+        val currentUser = FirebaseAuth.getInstance().currentUser?.uid
+        val ref = FirebaseDatabase.getInstance().getReference("users/$currentUser/favoriteCampsites")
+
+    }
+
+    private fun setFavButton() {
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+        val databaseRef = FirebaseDatabase.getInstance().getReference("users/$currentUserId/favoriteCampsites")
+        databaseRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Iterate over the child nodes of the reference
+                    for (childSnapshot in dataSnapshot.children) {
+                        // Check if the child node has the value campsiteId
+                        if (childSnapshot.getValue(String::class.java) == campsiteId) {
+                            // The reference has a child with the value campsiteId
+                            binding.removeCampsiteFromFavBtn.visibility = View.VISIBLE
+                            binding.addCampsiteToFavBtn.visibility = View.INVISIBLE
+                            return
+                        }
+                    }
+                    // The reference doesn't have a child with the value campsiteId
+                    binding.removeCampsiteFromFavBtn.visibility = View.INVISIBLE
+                    binding.addCampsiteToFavBtn.visibility = View.VISIBLE
+                } else {
+                    // The reference doesn't exist or has no children
+                    binding.removeCampsiteFromFavBtn.visibility = View.INVISIBLE
+                    binding.addCampsiteToFavBtn.visibility = View.VISIBLE
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    private fun addCampsiteToFavorites() {
+        val currentUser = FirebaseAuth.getInstance().currentUser?.uid
+        val ref = FirebaseDatabase.getInstance().getReference("users/$currentUser/favoriteCampsites")
+        ref.
+        ref.push().setValue(campsiteId).addOnSuccessListener {
+            // Once the object is pushed to the database, display a success message
+            Toast.makeText(this,"Successfully added campsite to favorites!",Toast.LENGTH_SHORT).show()
+            binding.addCampsiteToFavBtn.visibility = View.INVISIBLE
+            binding.removeCampsiteFromFavBtn.visibility = View.VISIBLE
         }
     }
 
