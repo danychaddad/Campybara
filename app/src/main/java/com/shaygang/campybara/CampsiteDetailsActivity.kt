@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.Window
 import android.widget.Button
+import android.widget.CalendarView
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -97,6 +98,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
 
     private fun reserveCampsiteDialog() {
         val dialog = Dialog(this)
+        var calendarView : CalendarView
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.reservation_dialog_group)
@@ -111,13 +113,19 @@ class CampsiteDetailsActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             dialog.findViewById<Button>(R.id.resDialogDateNext).setOnClickListener {
+                calendarView = dialog.findViewById(R.id.resDialogDateSelect)
+                var selectedFromDate : Date  = Date(calendarView.date)
                 dialog.setContentView(R.layout.reservation_dialog_date)
                 dialog.findViewById<TextView>(R.id.resDialogDateTxt).text = "Enter Reservation End Date"
                 dialog.findViewById<Button>(R.id.resDialogDateCancel).setOnClickListener {
                     dialog.dismiss()
                 }
                 dialog.findViewById<Button>(R.id.resDialogDateNext).setOnClickListener {
+                    calendarView = dialog.findViewById<CalendarView>(R.id.resDialogDateSelect)
+                    var selectedToDate : Date = Date()
                     dialog.setContentView(R.layout.reservation_dialog_confirmation)
+                    dialog.findViewById<TextView>(R.id.resDialogConfirmFromDate).text = selectedFromDate.toString()
+                    dialog.findViewById<TextView>(R.id.resDialogConfirmToDate).text = selectedToDate.toString()
                     dialog.findViewById<Button>(R.id.resDialogConfirmCancel).setOnClickListener {
                         dialog.dismiss()
                     }
