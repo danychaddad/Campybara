@@ -5,8 +5,8 @@ import com.google.firebase.ktx.Firebase
 import android.os.Parcelable
 
 class User(val uid: String, val firstName: String, val lastName: String, val phoneNb: String, val dateOfBirth: String,
-           val email: String, val profileImageUrl: String) {
-    constructor() : this("","","","","","","") {
+           val email: String, val profileImageUrl: String, val isAdmin: Boolean, val isOwner: Boolean) {
+    constructor() : this("","","","","","","", false, false) {
     }
     companion object {
         fun loadUserFromUid(uid: String, callback: (User?) -> Unit) {

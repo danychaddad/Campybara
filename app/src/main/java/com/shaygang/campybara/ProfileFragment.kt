@@ -20,6 +20,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -56,6 +57,10 @@ class ProfileFragment : Fragment() {
         val photoView = view?.findViewById<ImageView>(R.id.updatePhotoView)
         val removeProfilePic = view?.findViewById<ImageView>(R.id.removeProfilePic)
 
+        if (isOwner == false) {
+            view.findViewById<Button>(R.id.btnNewCampsite).isVisible = false
+        }
+
         view.findViewById<Button>(R.id.btnNewCampsite)?.setOnClickListener {
             if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
@@ -90,8 +95,8 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        firstNameField?.text = firstName
-        lastNameField?.text = lastName
+        firstNameField?.text = isAdmin.toString()
+        lastNameField?.text = isOwner.toString()
         emailField?.text = email
         phoneNbField?.text = phoneNb
         dateOfBirthField?.text = dateOfBirth
@@ -213,9 +218,15 @@ class ProfileFragment : Fragment() {
         val ref = FirebaseDatabase.getInstance().getReference("users")
 
         val user =
-            dateOfBirth?.let { email?.let { it1 ->
-                User(uid, newFirstName, newLastName, newPhoneNb, it, it1, newProfileImageUrl)
-            } }
+            dateOfBirth?.let {
+                email?.let { it1 ->
+                    isAdmin?.let { it2 ->
+                        isOwner?.let { it3 ->
+                            User(uid, newFirstName, newLastName, newPhoneNb, it, it1, newProfileImageUrl, it2, it3)
+                        }
+                    }
+                }
+            }
         ref.child(uid).setValue(user)
             .addOnSuccessListener {
                 firstName = newFirstName
@@ -241,8 +252,8 @@ class ProfileFragment : Fragment() {
         val photoField = view?.findViewById<Button>(R.id.updatePhoto)
         val photoView = view?.findViewById<ImageView>(R.id.updatePhotoView)
 
-        firstNameField?.text = firstName
-        lastNameField?.text = lastName
+        firstNameField?.text = isAdmin.toString()
+        lastNameField?.text = isOwner.toString()
         emailField?.text = email
         phoneNbField?.text = phoneNb
         dateOfBirthField?.text = dateOfBirth

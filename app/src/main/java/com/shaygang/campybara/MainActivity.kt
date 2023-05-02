@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
+import androidx.core.view.removeItemAt
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -29,6 +30,8 @@ var phoneNb: String? = null
 var dateOfBirth: String? = null
 var profileImageUrl: String? = null
 var age: Int? = null
+var isAdmin: Boolean? = null
+var isOwner: Boolean? = null
 
 class MainActivity : AppCompatActivity() {
 
@@ -64,6 +67,9 @@ class MainActivity : AppCompatActivity() {
                         dateOfBirth = dataSnapshot.child("dateOfBirth").value.toString()
                         profileImageUrl = dataSnapshot.child("profileImageUrl").value.toString()
                         age = calculateAge(dateOfBirth!!)
+                        isAdmin = dataSnapshot.child("admin").value as Boolean?
+                        isOwner = dataSnapshot.child("owner").value as Boolean?
+
                     }
                 }
             }
@@ -87,6 +93,8 @@ class MainActivity : AppCompatActivity() {
                         dateOfBirth = dataSnapshot.child("dateOfBirth").value.toString()
                         profileImageUrl = dataSnapshot.child("profileImageUrl").value.toString()
                         age = calculateAge(dateOfBirth!!)
+                        isAdmin = dataSnapshot.child("admin").value as Boolean?
+                        isOwner = dataSnapshot.child("owner").value as Boolean?
                     }
                 }
             }
@@ -95,11 +103,22 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menu?.add("Add Admin")
         menu?.add("Sign Out")
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+//        val addAdminItem = menu.findItem(R.id.)
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.title == "Add Admin") {
+            val addAdminDialog = AddAdminDialog(this)
+            addAdminDialog.show()
+        }
         if (item.title == "Sign Out") {
             MaterialAlertDialogBuilder(this)
                 .setMessage("Are you sure?")
@@ -112,6 +131,8 @@ class MainActivity : AppCompatActivity() {
                     dateOfBirth = null
                     profileImageUrl = null
                     age = null
+                    isAdmin = null
+                    isOwner = null
 
                     firebaseAuth = FirebaseAuth.getInstance()
                     firebaseAuth.signOut()
