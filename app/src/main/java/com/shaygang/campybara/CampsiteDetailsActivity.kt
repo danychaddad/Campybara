@@ -92,7 +92,9 @@ class CampsiteDetailsActivity : AppCompatActivity() {
     private fun removeCampsiteFromFavorites() {
         val currentUser = FirebaseAuth.getInstance().currentUser?.uid
         val ref = FirebaseDatabase.getInstance().getReference("users/$currentUser/favoriteCampsites")
-
+        ref.child(campsiteId).removeValue().addOnSuccessListener {
+            setFavButton()
+        }
     }
 
     private fun setFavButton() {
@@ -104,7 +106,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
                     // Iterate over the child nodes of the reference
                     for (childSnapshot in dataSnapshot.children) {
                         // Check if the child node has the value campsiteId
-                        if (childSnapshot.getValue(String::class.java) == campsiteId) {
+                        if (childSnapshot.value == true) {
                             // The reference has a child with the value campsiteId
                             binding.removeCampsiteFromFavBtn.visibility = View.VISIBLE
                             binding.addCampsiteToFavBtn.visibility = View.INVISIBLE
@@ -129,8 +131,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
     private fun addCampsiteToFavorites() {
         val currentUser = FirebaseAuth.getInstance().currentUser?.uid
         val ref = FirebaseDatabase.getInstance().getReference("users/$currentUser/favoriteCampsites")
-        ref.
-        ref.push().setValue(campsiteId).addOnSuccessListener {
+        ref.child(campsiteId).setValue(true).addOnSuccessListener {
             // Once the object is pushed to the database, display a success message
             Toast.makeText(this,"Successfully added campsite to favorites!",Toast.LENGTH_SHORT).show()
             binding.addCampsiteToFavBtn.visibility = View.INVISIBLE
@@ -176,12 +177,12 @@ class CampsiteDetailsActivity : AppCompatActivity() {
             calendar.add(Calendar.DAY_OF_MONTH, 1)
             val calendarDateSelect = dialog.findViewById<CalendarView>(R.id.resDialogDateSelect)
             var startDate: Date? = null
+            calendarDateSelect.minDate = calendar.timeInMillis
             calendarDateSelect.setOnDateChangeListener { calendarView, year, month, day ->
+                val calendar = Calendar.getInstance()
+                calendar.set(year,month,day)
                 selectedFromDate.time = calendar.timeInMillis
-                startDate = Calendar.getInstance().apply {
-                    set(year, month, day, 0, 0, 0)
-                    set(Calendar.MILLISECOND, 0)
-                }.time
+                startDate = calendar.time
             }
 
             dialog.findViewById<Button>(R.id.resDialogDateCancel).setOnClickListener {
