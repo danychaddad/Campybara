@@ -41,9 +41,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun campsiteInitialize() {
-        Log.d("Checking","your mom is gay")
         Campsite.getCampsiteIds(campsiteIdList) {
-            Log.d("list",it.toString())
             adapter.notifyDataSetChanged()
         }
     }
