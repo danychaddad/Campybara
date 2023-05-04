@@ -3,12 +3,15 @@ package com.shaygang.campybara
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -45,19 +48,26 @@ class AddAdminDialog(private val context: Context) {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun checkUser(email: String) {
-        database.child("users").orderByChild("email").equalTo(email).get().addOnSuccessListener { dataSnapshot ->
-            if (dataSnapshot.exists()) {
-                val user = dataSnapshot.children.first()
-                if (user != null && isUserEligible(user)) {
-                    setAdmin(user)
+        val query = database.child("users").orderByChild("email").equalTo(email)
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (childSnapshot in dataSnapshot.children) {
+                        if (childSnapshot != null && isUserEligible(childSnapshot)) {
+                            setAdmin(childSnapshot)
+                        } else {
+                            Toast.makeText(context, "User is not eligible to become an admin", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } else {
-                    Toast.makeText(context, "User is not eligible to become an admin", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "User not found", Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                Toast.makeText(context, "User not found", Toast.LENGTH_SHORT).show()
             }
-        }
+
+            override fun onCancelled(error: DatabaseError) {}
+        })
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun isUserEligible(user: DataSnapshot): Boolean {

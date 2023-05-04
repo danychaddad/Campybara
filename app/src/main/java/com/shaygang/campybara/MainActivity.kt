@@ -1,13 +1,14 @@
 package com.shaygang.campybara
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import androidx.annotation.RequiresApi
-import androidx.core.view.removeItemAt
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,12 +17,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import java.text.SimpleDateFormat
+import com.google.zxing.integration.android.IntentIntegrator
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
-import java.util.Locale
 
 var firstName: String? = null
 var lastName: String? = null
@@ -74,6 +73,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -104,12 +105,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.add("Add Admin")
+        menu?.add("Become An Owner")
         menu?.add("Sign Out")
         return super.onCreateOptionsMenu(menu)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-//        val addAdminItem = menu.findItem(R.id.)
+        val addAdminItem = menu?.getItem(0)
+        val applyForOwner = menu?.getItem(1)
+        if (addAdminItem != null && isAdmin == false) {
+            addAdminItem.isVisible = false
+        }
+        if (applyForOwner != null) {
+            if (isAdmin == true || isOwner == true)
+            applyForOwner.isVisible = false
+        }
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -118,6 +129,10 @@ class MainActivity : AppCompatActivity() {
         if (item.title == "Add Admin") {
             val addAdminDialog = AddAdminDialog(this)
             addAdminDialog.show()
+        }
+        if (item.title == "Become An Owner") {
+            val applyOwnerDialog = UploadFileDialog(this)
+            applyOwnerDialog.show()
         }
         if (item.title == "Sign Out") {
             MaterialAlertDialogBuilder(this)
