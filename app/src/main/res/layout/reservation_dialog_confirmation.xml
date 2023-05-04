@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="TextView"
+            android:text="Reservation Info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,16 +34,22 @@
             app:layout_constraintTop_toBottomOf="@+id/resDialogConfirmTxt">
 
             <TextView
+                android:id="@+id/resDialogConfirmGrpName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="group name" />
+
+            <TextView
                 android:id="@+id/resDialogConfirmFromDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="from date" />
 
             <TextView
                 android:id="@+id/resDialogConfirmToDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="to date" />
         </LinearLayout>
 
         <Button

@@ -9,12 +9,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.view.Window
-import android.widget.Button
-import android.widget.CalendarView
-import android.widget.EditText
-import android.widget.RatingBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
@@ -62,7 +57,6 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         titleTextView.text = campsiteName
         loadOwner()
         loadReviews()
-        groupId = "testGroup"
         binding.ratingLayout.setOnClickListener {
             val intent = Intent(this, ReviewActivity::class.java)
             intent.putExtra("campsiteId", campsiteId)
@@ -162,6 +156,21 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.reservation_dialog_group)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val spinner = dialog.findViewById<Spinner>(R.id.resDialogGroupSpinner)
+        var groupIdList = arrayListOf<String>()
+        User.getGroupsWhereUserIsLeader(User.getCurrentlyLoggedInUser()) {
+            groupIdList = it
+            val groupNameList = arrayListOf<String>()
+            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, groupNameList)
+            for (groupId in groupIdList) {
+                Group.getGroupFromId(groupId) {
+                    groupNameList.add(it!!.name)
+                    adapter.notifyDataSetChanged()
+                }
+            }
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
         dialog.findViewById<Button>(R.id.resDialogGroupCancel).setOnClickListener {
             // Cancel button
             dialog.dismiss()
@@ -169,6 +178,8 @@ class CampsiteDetailsActivity : AppCompatActivity() {
         dialog.findViewById<Button>(R.id.resDialogGroupNext).setOnClickListener {
             // User chooses Group and number of visitors to the campsite, moves on to date selection
             visitors = dialog.findViewById<EditText>(R.id.resDialogGroupVisitors).text.toString().toInt()
+            groupId = groupIdList[spinner.selectedItemPosition]
+            val groupName = spinner.selectedItem.toString()
             dialog.setContentView(R.layout.reservation_dialog_date)
             dialog.findViewById<TextView>(R.id.resDialogDateTxt).text = "Enter Reservation Start Date"
             val selectedFromDate = Date()
@@ -191,6 +202,8 @@ class CampsiteDetailsActivity : AppCompatActivity() {
             }
 
             dialog.findViewById<Button>(R.id.resDialogDateNext).setOnClickListener {
+                selectedFromDate.time = calendar.timeInMillis
+                startDate = calendar.time
                 // User selected and confirmed start date,user now selects end date
                 dialog.setContentView(R.layout.reservation_dialog_date)
                 calendarView = dialog.findViewById<CalendarView>(R.id.resDialogDateSelect)
@@ -222,20 +235,22 @@ class CampsiteDetailsActivity : AppCompatActivity() {
                     dialog.setContentView(R.layout.reservation_dialog_confirmation)
                     dialog.findViewById<TextView>(R.id.resDialogConfirmFromDate).text = selectedFromDate.toString()
                     dialog.findViewById<TextView>(R.id.resDialogConfirmToDate).text = selectedToDate.toString()
+                    dialog.findViewById<TextView>(R.id.resDialogConfirmGrpName).text = groupName
                     dialog.findViewById<Button>(R.id.resDialogConfirmCancel).setOnClickListener {
                         // Cancel button
                         dialog.dismiss()
                     }
                     dialog.findViewById<Button>(R.id.resDialogConfirmFinish).setOnClickListener {
                         // User wants to proceed with request
-                        val request = ReservationRequest(
+                        val request = Reservation(
                             campsiteId,
                             campsiteOwnerUid,
                             FirebaseAuth.getInstance().currentUser!!.uid,
                             groupId,
                             selectedFromDate,
                             selectedToDate,
-                            visitors
+                            visitors,
+                            ReservationState.PENDING
                         )
                         val ref = FirebaseDatabase.getInstance().getReference("campsites/$campsiteId/reservationRequests")
                         ref.push().setValue(request).addOnSuccessListener {

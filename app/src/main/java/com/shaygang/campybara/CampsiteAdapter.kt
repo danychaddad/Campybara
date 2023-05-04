@@ -27,6 +27,10 @@ class CampsiteAdapter(private val campsiteIdList : ArrayList<String>, val contex
             val currentItem = it!!
             Glide.with(holder.itemView).load(currentItem.imageUrl.toString()).placeholder(R.drawable.capy_loading_image).into(holder.campsiteImage)
             holder.campsiteName.text = currentItem.name
+            val reviewHelper = ReviewHelper(currentItemId)
+            reviewHelper.populateReviewList {
+                holder.campsiteRating.text = String.format("%.1f",reviewHelper.calculateAvg())
+            }
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, CampsiteDetailsActivity::class.java)
                 intent.putExtra("campsiteName", currentItem.name)
@@ -42,5 +46,6 @@ class CampsiteAdapter(private val campsiteIdList : ArrayList<String>, val contex
     class CampsiteViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         val campsiteImage : ImageView = itemView.findViewById(R.id.campsiteImage)
         val campsiteName : TextView = itemView.findViewById(R.id.campsiteName)
+        val campsiteRating : TextView = itemView.findViewById(R.id.itemListRatingScore)
     }
 }

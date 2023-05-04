@@ -19,14 +19,16 @@
             android:scaleType="fitXY"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/campy" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/campsiteName"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:fontFamily="sans-serif-black"
+            android:gravity="center_vertical"
             android:text="@string/el_maisone_del_capy"
             android:textColor="#000000"
             android:textSize="24sp"
@@ -34,6 +36,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/campsiteImage"
             app:layout_constraintTop_toBottomOf="@+id/campsiteImage" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/listItemRating"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/rounded_corner_4dp"
+            android:backgroundTint="#A400B040"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/campsiteName"
+            app:layout_constraintTop_toBottomOf="@+id/campsiteName">
+
+            <TextView
+                android:id="@+id/itemListRatingScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:text="5.5"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/itemListRatingStar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/itemListRatingStar"
+                app:layout_constraintTop_toTopOf="@+id/itemListRatingStar" />
+
+            <ImageView
+                android:id="@+id/itemListRatingStar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_star_24" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

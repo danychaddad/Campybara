@@ -65,7 +65,7 @@
             android:layout_height="150dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="20dp"
-            android:background="@drawable/rounded_corner"
+            android:background="@drawable/rounded_corner_10dp"
             android:backgroundTint="@color/white"
             app:boxBackgroundColor="#FFFFFF"
             app:boxBackgroundMode="outline"

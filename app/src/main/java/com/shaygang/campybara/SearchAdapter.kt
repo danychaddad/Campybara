@@ -14,7 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.LocationServices
-import java.lang.Math.*
+import kotlin.math.*
 
 class SearchAdapter(private val campsiteIds : List<String>, private val context : Context) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
     // Define a ViewHolder class to hold the views for each item
@@ -89,7 +89,7 @@ class SearchAdapter(private val campsiteIds : List<String>, private val context 
 
     private fun calculateDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
         fun deg2rad(deg: Double): Double {
-            return deg * (Math.PI / 180)
+            return deg * (PI / 180)
         }
         val R = 6371 // radius of the earth in km
         val dLat = deg2rad(lat2 - lat1)
