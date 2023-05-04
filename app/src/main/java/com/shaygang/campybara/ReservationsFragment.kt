@@ -74,14 +74,14 @@ class ReservationsFragment : Fragment() {
                 Toast.makeText(activity, "Scan cancelled", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(activity, "Scan successful: ${result.contents}", Toast.LENGTH_SHORT).show()
-                val newGroupKey = "-NUXilCqjMk7OXneS3Sl"
+                val newGroupKey = result.contents
                 val uid = FirebaseAuth.getInstance().currentUser?.uid
 
                 if (uid != null) {
                     val userRef = FirebaseDatabase.getInstance().getReference("users").child(uid).child("memberOf")
                     userRef.child(newGroupKey).setValue(newGroupKey)
 
-                    val groupRef = FirebaseDatabase.getInstance().getReference("groups/-NUXilCqjMk7OXneS3Sl/memberList")
+                    val groupRef = FirebaseDatabase.getInstance().getReference("groups/$newGroupKey/memberList")
                     val memberList: MutableList<String> = mutableListOf()
 
                     groupRef.addValueEventListener(object : ValueEventListener {
