@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
@@ -170,9 +171,25 @@ class CreateGroupActivity : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().currentUser?.uid
         val group = uid?.let { Group(name, description, it, imageUrl, memberUids) }
 
-        ref.push().setValue(group).addOnSuccessListener {
-            Toast.makeText(this,"Successfully added group !!", Toast.LENGTH_SHORT).show()
-            exitGroupCreation()
+        val newGroupKey = ref.push().key
+        if (newGroupKey != null) {
+            ref.child(newGroupKey).setValue(group).addOnSuccessListener {
+                if (uid != null) {
+                    memberUids.add(uid)
+                }
+                for (memberUid in memberUids) {
+                    var userRef: DatabaseReference
+                    if (memberUid == uid) {
+                        userRef = FirebaseDatabase.getInstance().getReference("users").child(memberUid).child("creatorOf")
+                    } else {
+                        userRef = FirebaseDatabase.getInstance().getReference("users").child(memberUid).child("memberOf")
+                    }
+                    userRef.child(newGroupKey).setValue(newGroupKey)
+                }
+
+                Toast.makeText(this,"Successfully added group !!", Toast.LENGTH_SHORT).show()
+                exitGroupCreation()
+            }
         }
     }
 

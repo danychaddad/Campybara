@@ -252,8 +252,8 @@ class ProfileFragment : Fragment() {
         val photoField = view?.findViewById<Button>(R.id.updatePhoto)
         val photoView = view?.findViewById<ImageView>(R.id.updatePhotoView)
 
-        firstNameField?.text = isAdmin.toString()
-        lastNameField?.text = isOwner.toString()
+        firstNameField?.text = firstName
+        lastNameField?.text = lastName
         emailField?.text = email
         phoneNbField?.text = phoneNb
         dateOfBirthField?.text = dateOfBirth
