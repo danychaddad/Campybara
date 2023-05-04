@@ -2,6 +2,7 @@ package com.shaygang.campybara
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.view.LayoutInflater
@@ -57,7 +58,8 @@ class SearchAdapter(private val campsiteIds : List<String>, private val context 
                             distance *= 1000
                             holder.locationTextView.text = String.format("%.1f m",distance)
                         } else {
-                        holder.locationTextView.text = String.format("%.1f km",distance)}
+                        holder.locationTextView.text = String.format("%.1f km",distance)
+                        }
                     } else {
                         // location not found, handle accordingly
                     }
@@ -68,6 +70,15 @@ class SearchAdapter(private val campsiteIds : List<String>, private val context 
             Glide.with(holder.imageView).load(currentItem.imageUrl)
                 .placeholder(R.drawable.capy_loading_image).into(holder.imageView)
             holder.capacityTextView.text = currentItem.capacity.toString()
+            holder.itemView.setOnClickListener {
+                val intent = Intent(context, CampsiteDetailsActivity::class.java)
+                intent.putExtra("campsiteName", currentItem.name)
+                intent.putExtra("imageUrl", currentItem.imageUrl)
+                intent.putExtra("ownerUid", currentItem.ownerUID)
+                intent.putExtra("campsiteId",campsiteIds[position])
+                intent.putExtra("campsiteLocation", currentItem.location)
+                context.startActivity(intent)
+            }
         }
     }
 

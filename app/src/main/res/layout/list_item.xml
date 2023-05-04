@@ -1,43 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="20dp"
-    android:background="@drawable/rounded_corner"
-    android:foreground="?attr/selectableItemBackground"
-    android:elevation="8dp"
-    android:outlineProvider="bounds"
-    android:paddingBottom="10dp">
+    android:layout_margin="10dp"
+    app:cardCornerRadius="5dp">
 
-    <com.shaygang.campybara.RoundedImageView
-        android:id="@+id/campsiteImage"
-        android:layout_width="0dp"
-        android:layout_height="225dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:adjustViewBounds="false"
-        android:scaleType="fitXY"
-        android:background="@drawable/rounded_corner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/campy" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/campsiteName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="sans-serif-black"
-        android:text="@string/el_maisone_del_capy"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/campsiteImage"
-        app:layout_constraintStart_toStartOf="@+id/campsiteImage"
-        app:layout_constraintTop_toBottomOf="@+id/campsiteImage" />
+        <ImageView
+            android:id="@+id/campsiteImage"
+            android:layout_width="0dp"
+            android:layout_height="225dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/campy" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/campsiteName"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/el_maisone_del_capy"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/campsiteImage"
+            app:layout_constraintTop_toBottomOf="@+id/campsiteImage" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

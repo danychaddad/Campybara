@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
+    android:foreground="?attr/selectableItemBackground"
     app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,13 +68,14 @@
                 android:text="55"
                 android:textAlignment="center"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/serachCapacityIcon"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/searchCapacityIcon"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/serachCapacityIcon"
-                app:layout_constraintTop_toTopOf="@+id/serachCapacityIcon" />
+                app:layout_constraintStart_toEndOf="@+id/searchCapacityIcon"
+                app:layout_constraintTop_toTopOf="@+id/searchCapacityIcon" />
 
             <ImageView
-                android:id="@+id/serachCapacityIcon"
+                android:id="@+id/searchCapacityIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -101,11 +103,12 @@
                 android:id="@+id/searchDistanceTxt"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="5dp"
                 android:gravity="center_vertical"
-                android:text="500.1 m"
+                android:text="25.7 km"
                 android:textAlignment="center"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/searchDistanceIcon"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/searchDistanceIcon"

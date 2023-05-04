@@ -106,7 +106,7 @@ class CampsiteDetailsActivity : AppCompatActivity() {
                     // Iterate over the child nodes of the reference
                     for (childSnapshot in dataSnapshot.children) {
                         // Check if the child node has the value campsiteId
-                        if (childSnapshot.value == true) {
+                        if (childSnapshot.key == campsiteId && childSnapshot.value == true) {
                             // The reference has a child with the value campsiteId
                             binding.removeCampsiteFromFavBtn.visibility = View.VISIBLE
                             binding.addCampsiteToFavBtn.visibility = View.INVISIBLE
