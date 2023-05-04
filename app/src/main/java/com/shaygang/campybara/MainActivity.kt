@@ -8,8 +8,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
-import androidx.navigation.findNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -42,10 +40,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-//        val navController = findNavController(R.id.fragmentContainerView)
-//        bottomNavigationView.setupWithNavController(navController)
-
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowCustomEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -62,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         adapter.addFragment(ProfileFragment())
 
         viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 2
 
         bottomNav.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -135,6 +130,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menu?.add("Add Admin")
         menu?.add("Become An Owner")
+        menu?.add("Approve Owners")
         menu?.add("Sign Out")
         return super.onCreateOptionsMenu(menu)
     }
@@ -143,12 +139,19 @@ class MainActivity : AppCompatActivity() {
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         val addAdminItem = menu?.getItem(0)
         val applyForOwner = menu?.getItem(1)
-        if (addAdminItem != null && isAdmin == false) {
+        val approveOwners = menu?.getItem(2)
+
+        if (addAdminItem != null && approveOwners != null && isAdmin == false) {
             addAdminItem.isVisible = false
+            approveOwners.isVisible = false
         }
+
         if (applyForOwner != null) {
-            if (isAdmin == true || isOwner == true)
-            applyForOwner.isVisible = false
+            if (isAdmin == true || isOwner == true) {
+                applyForOwner.isVisible = false
+            } else if (age != null && age!! < 18) {
+                applyForOwner.isVisible = false
+            }
         }
         return super.onPrepareOptionsMenu(menu)
     }
@@ -162,6 +165,10 @@ class MainActivity : AppCompatActivity() {
         if (item.title == "Become An Owner") {
             val applyOwnerDialog = UploadFileDialog(this)
             applyOwnerDialog.show()
+        }
+        if (item.title == "Approve Owners") {
+            val intent = Intent(this@MainActivity, ApproveOwnersActivity::class.java)
+            startActivity(intent)
         }
         if (item.title == "Sign Out") {
             MaterialAlertDialogBuilder(this)

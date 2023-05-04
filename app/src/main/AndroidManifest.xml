@@ -21,23 +21,22 @@
         android:theme="@style/Theme.Campybara"
         tools:targetApi="31">
         <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@mipmap/ic_launcher" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/primary" />
-        <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="MAPS_API_KEY" />
+            android:value="AIzaSyBkZYASFFCAhslQ8JBCeL3cEyloH1sd7BM" />
 
         <activity
             android:name=".WriteReviewActivity"
             android:exported="false" />
         <activity
             android:name=".ReviewActivity"
-            android:exported="false" />
+            android:exported="false"/>
+        <activity
+            android:name=".ApproveOwnersActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name=".CampsiteDetailsActivity"
             android:exported="false" />
