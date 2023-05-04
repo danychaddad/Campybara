@@ -7,17 +7,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.zxing.integration.android.IntentIntegrator
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -44,13 +43,43 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        val navController = findNavController(R.id.fragmentContainerView)
-        bottomNavigationView.setupWithNavController(navController)
+//        val navController = findNavController(R.id.fragmentContainerView)
+//        bottomNavigationView.setupWithNavController(navController)
 
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayShowCustomEnabled(true)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setCustomView(R.layout.actionbar_title)
+
+        val viewPager: ViewPager2 = findViewById(R.id.viewPager)
+        val bottomNav : BottomNavigationView = findViewById(R.id.bottomNavigationView)
+
+        val adapter = ViewPagerAdapter(supportFragmentManager, lifecycle)
+        adapter.addFragment(HomeFragment())
+        adapter.addFragment(ChatFragment())
+        adapter.addFragment(SearchFragment())
+        adapter.addFragment(ReservationsFragment())
+        adapter.addFragment(ProfileFragment())
+
+        viewPager.adapter = adapter
+
+        bottomNav.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.homeFragment -> viewPager.currentItem = 0
+                R.id.chatFragment -> viewPager.currentItem = 1
+                R.id.searchFragment -> viewPager.currentItem = 2
+                R.id.reservationsFragment -> viewPager.currentItem = 3
+                R.id.profileFragment -> viewPager.currentItem = 4
+            }
+            true
+        }
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                bottomNav.menu.getItem(position).isChecked = true
+            }
+        })
 
         user = FirebaseAuth.getInstance().currentUser!!
         databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
