@@ -13,11 +13,17 @@ import android.view.ViewOutlineProvider
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
 class HomeFragment : Fragment() {
     private lateinit var adapter: CampsiteAdapter
     private lateinit var recyclerView: RecyclerView
     private var campsiteIdList : ArrayList<String> = arrayListOf()
+    private lateinit var viewPager: ViewPager2
+    private lateinit var pagerAdapter: FragmentStateAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

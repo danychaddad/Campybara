@@ -65,7 +65,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
-    implementation 'com.google.zxing:core:3.3.3'
+    implementation 'com.google.zxing:core:3.4.1'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'androidx.fragment:fragment-ktx:1.5.7'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
     implementation 'androidx.multidex:multidex:2.0.1'
