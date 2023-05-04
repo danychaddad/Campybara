@@ -8,19 +8,19 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import java.util.Locale
-
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class UploadFileDialog(private val context: Context): DialogFragment() {
 
@@ -68,8 +68,37 @@ class UploadFileDialog(private val context: Context): DialogFragment() {
             }
         }
 
+        // Send Owner Request
         builder.setPositiveButton("Yes") { dialog, which ->
-//            send
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            val ref = FirebaseDatabase.getInstance().getReference("owner_requests")
+
+            if (uid != null) {
+                ref.addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        // Check if the user's uid already exists in the node
+                        if (snapshot.hasChild(uid)) {
+                            // User's uid already exists, do not send new request
+                            Toast.makeText(context, "Request already sent!", Toast.LENGTH_SHORT).show()
+                        } else {
+                            // User's uid does not exist, send new request
+                            val requestMap = HashMap<String, Any>()
+                            requestMap["isApproved"] = false
+                            ref.child(uid).setValue(requestMap)
+                                .addOnSuccessListener {
+                                    Toast.makeText(context, "Request sent successfully!", Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(context, "Failed to send request: ${it.message}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        Toast.makeText(context, "Failed to check if request exists: ${error.message}", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
         }
 
         builder.setNegativeButton("Cancel") { dialog, which ->

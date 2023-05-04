@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/reservationLayout"
+    android:id="@+id/frameLayout"
+    android:background="@color/beige"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ReservationsFragment">
+    tools:context=".ChatFragment">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -23,7 +24,7 @@
             android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/groupListView"
+                android:id="@+id/ownerRequestsListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -34,29 +35,5 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-
-    <Button
-        android:id="@+id/addGroup"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/rounded_button"
-        android:text="+"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/scanButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
-        android:clickable="true"
-        app:backgroundTint="@color/primary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/baseline_qr_code_scanner_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
