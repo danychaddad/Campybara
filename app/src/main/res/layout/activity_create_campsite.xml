@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/beige"
-    tools:context=".CreateCampsiteActivity">
+    android:id="@+id/create_campsite_layout"
+    tools:context=".Activity.CreateCampsiteActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,6 +16,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/create_campsite_scroll"
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout

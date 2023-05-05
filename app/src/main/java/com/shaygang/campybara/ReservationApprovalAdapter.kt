@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.shaygang.campybara.Class.Group
 
 class ReservationApprovalAdapter(val reservationIds: ArrayList<String>, val context : Context) : RecyclerView.Adapter<ReservationApprovalAdapter.ReservationApprovalViewHolder>() {
 

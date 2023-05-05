@@ -15,6 +15,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.shaygang.campybara.Activity.ApproveOwnersActivity
+import com.shaygang.campybara.Activity.SignInActivity
+import com.shaygang.campybara.Adapter.ViewPagerAdapter
+import com.shaygang.campybara.Dialog.AddAdminDialog
+import com.shaygang.campybara.Dialog.ApplyOwnerDialog
+import com.shaygang.campybara.Fragment.ProfileFragment
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -163,7 +169,7 @@ class MainActivity : AppCompatActivity() {
             addAdminDialog.show()
         }
         if (item.title == "Become An Owner") {
-            val applyOwnerDialog = UploadFileDialog(this)
+            val applyOwnerDialog = ApplyOwnerDialog(this)
             applyOwnerDialog.show()
         }
         if (item.title == "Approve Owners") {

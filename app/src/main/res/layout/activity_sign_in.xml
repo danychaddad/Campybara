@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/beige"
-    tools:context=".SignInActivity">
+    android:id="@+id/sign_in_layout"
+    tools:context=".Activity.SignInActivity">
 
     <TextView
         android:id="@+id/resetPassBtn"
