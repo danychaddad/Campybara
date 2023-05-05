@@ -34,7 +34,6 @@ class Reservation (val campsiteId : String, val campsiteOwnerId : String,
                             reservations.add(child.key!!)
                         }
                     }
-                    println(reservations)
                     callback(reservations)
                 }
 
