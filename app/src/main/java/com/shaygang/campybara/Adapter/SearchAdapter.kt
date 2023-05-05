@@ -20,7 +20,6 @@ import com.shaygang.campybara.R
 import kotlin.math.*
 
 class SearchAdapter(private var campsiteIds : ArrayList<String>, private val context : Context) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
-    private val initialCampsiteList : ArrayList<String> = campsiteIds
     // Define a ViewHolder class to hold the views for each item
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -35,9 +34,9 @@ class SearchAdapter(private var campsiteIds : ArrayList<String>, private val con
         notifyDataSetChanged()
     }
 
-    fun filterCampsiteList(query: String) {
+    fun filterCampsiteList(campsiteList : ArrayList<String>, query: String) {
         var filteredCampsiteIds = arrayListOf<String>()
-        for (id in initialCampsiteList) {
+        for (id in campsiteList) {
             Campsite.getCampsiteFromId(id) {
                 if (it!!.name.startsWith(query, true)) {
                     filteredCampsiteIds.add(id)

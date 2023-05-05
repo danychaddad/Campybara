@@ -2,12 +2,11 @@ package com.shaygang.campybara.Class
 
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import android.os.Parcelable
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
 
 class User(val uid: String, val firstName: String, val lastName: String, val phoneNb: String, val dateOfBirth: String,
            val email: String, val profileImageUrl: String, val isAdmin: Boolean, val isOwner: Boolean) {
@@ -39,7 +38,7 @@ class User(val uid: String, val firstName: String, val lastName: String, val pho
         }
 
         fun getGroupsWhereUserIsLeader(userId : String, callback: (ArrayList<String>) -> Unit) {
-            val database = Firebase.database
+            val database = FirebaseDatabase.getInstance()
             val groupIdList = arrayListOf<String>()
             val groupRef = database.getReference("groups")
             groupRef.addValueEventListener(object : ValueEventListener {
@@ -57,6 +56,19 @@ class User(val uid: String, val firstName: String, val lastName: String, val pho
                 }
 
             })
+        }
+
+        fun getUserFavorites(userId: String, callback: (ArrayList<String>?) -> Unit) {
+            val database = FirebaseDatabase.getInstance()
+            var favoritesList = arrayListOf<String>()
+            val ref = database.getReference("users/$userId/favoriteCampsites")
+            ref.get().addOnSuccessListener {
+                for (child in it.children) {
+                    favoritesList.add(child.key!!)
+                    print(child.key!!)
+                }
+                callback(favoritesList)
+            }
         }
     }
 }

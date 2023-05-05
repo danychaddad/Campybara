@@ -1,10 +1,9 @@
-package com.shaygang.campybara
+package com.shaygang.campybara.Adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -12,6 +11,8 @@ import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.shaygang.campybara.Class.Group
+import com.shaygang.campybara.R
+import com.shaygang.campybara.Reservation
 
 class ReservationApprovalAdapter(val reservationIds: ArrayList<String>, val context : Context) : RecyclerView.Adapter<ReservationApprovalAdapter.ReservationApprovalViewHolder>() {
 
@@ -35,15 +36,17 @@ class ReservationApprovalAdapter(val reservationIds: ArrayList<String>, val cont
                 Glide.with(context).load(it!!.groupImageUrl).into(holder.groupImage)
             }
             holder.nbOfPeople.text = it.nbOfPeople.toString()
-            holder.fromDate.text = "${it.reservationFromDate.date}/${it.reservationFromDate.month}/${it.reservationFromDate.year + 1900}"
-            holder.toDate.text = "${it.reservationToDate.date}/${it.reservationToDate.month}/${it.reservationToDate.year + 1900}"
+            holder.fromDate.text =
+                "${it.reservationFromDate.date}/${it.reservationFromDate.month}/${it.reservationFromDate.year + 1900}"
+            holder.toDate.text =
+                "${it.reservationToDate.date}/${it.reservationToDate.month}/${it.reservationToDate.year + 1900}"
             holder.acceptBtn.setOnClickListener {
-                Toast.makeText(holder.itemView.context,"Approved!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(holder.itemView.context, "Approved!", Toast.LENGTH_SHORT).show()
                 reservation.approve()
                 removeItem(position)
             }
             holder.rejectBtn.setOnClickListener {
-                Toast.makeText(holder.itemView.context,"Declined!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(holder.itemView.context, "Declined!", Toast.LENGTH_SHORT).show()
                 reservation.decline()
                 removeItem(position)
             }

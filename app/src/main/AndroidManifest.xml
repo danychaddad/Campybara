@@ -21,7 +21,7 @@
         android:theme="@style/Theme.Campybara"
         tools:targetApi="31">
         <activity
-            android:name=".ApproveReservationsActivity"
+            android:name=".Activity.ApproveReservationsActivity"
             android:exported="false" />
 
         <meta-data

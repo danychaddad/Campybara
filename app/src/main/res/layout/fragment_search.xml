@@ -8,16 +8,30 @@
 
     <SearchView
         android:id="@+id/searchView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:background="@drawable/searchview_background"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:iconifiedByDefault="false"
+        app:layout_constraintEnd_toStartOf="@+id/favoritesSwitch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:iconifiedByDefault="false"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+    </SearchView>
+
+    <Switch
+        android:id="@+id/favoritesSwitch"
+        android:layout_width="70dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_weight="1"
+        android:drawableStart="@drawable/baseline_favorite_24"
+        android:drawableTint="@color/primary"
+        app:layout_constraintBottom_toBottomOf="@+id/searchView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/searchView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchRecyclerView"

@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.Switch
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.shaygang.campybara.Adapter.SearchAdapter
 import com.shaygang.campybara.Class.Campsite
+import com.shaygang.campybara.Class.User
 
 class SearchFragment : Fragment() {
 
@@ -32,14 +35,33 @@ class SearchFragment : Fragment() {
         val verticalSpaceItemDecoration = VerticalSpaceItemDecoration(spacingHeight)
         val recyclerView = view.findViewById<RecyclerView>(R.id.searchRecyclerView)
         val searchView = view.findViewById<SearchView>(R.id.searchView)
+        val toggleButton = view.findViewById<Switch>(R.id.favoritesSwitch)
         recyclerView.addItemDecoration(verticalSpaceItemDecoration)
-        val campsiteIdList = arrayListOf<String>()
-        var searchAdapter : SearchAdapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        var campsiteIdList = arrayListOf<String>()
+        var searchAdapter : SearchAdapter = SearchAdapter(arrayListOf(), requireContext())
         Campsite.getCampsiteIds(campsiteIdList) {
-            searchAdapter = SearchAdapter(it!!, requireContext())
+            searchAdapter.setCampsites(it!!)
             recyclerView.adapter = searchAdapter
-            recyclerView.layoutManager = LinearLayoutManager(context)
         }
+
+        toggleButton.setOnCheckedChangeListener { _, isChecked ->
+
+            if (isChecked) {
+                User.getUserFavorites(FirebaseAuth.getInstance().currentUser!!.uid) {
+                    campsiteIdList = it!!
+                    searchAdapter.setCampsites(it!!)
+                    recyclerView.adapter = searchAdapter
+                }
+            } else {
+                Campsite.getCampsiteIds(campsiteIdList) {
+                    campsiteIdList = it!!
+                    searchAdapter.setCampsites(it!!)
+                    recyclerView.adapter = searchAdapter
+                }
+            }
+        }
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Hide the keyboard when the user submits their search query
@@ -48,8 +70,7 @@ class SearchFragment : Fragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-
-                (recyclerView.adapter as SearchAdapter).filterCampsiteList(newText.orEmpty())
+                (recyclerView.adapter as SearchAdapter).filterCampsiteList(campsiteIdList, newText.orEmpty())
                 return true
             }
         })
