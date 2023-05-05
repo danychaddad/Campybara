@@ -14,6 +14,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -50,7 +51,6 @@ class GroupActivity : AppCompatActivity() {
         binding.chatGroupCreator.setOnClickListener {
             groupCreatorId?.let { it1 -> fetchUser(it1) }
         }
-
         if (groupCreatorId == FirebaseAuth.getInstance().currentUser?.uid) {
             binding.chatGroupCreator.isVisible = false
         } else {
@@ -60,7 +60,51 @@ class GroupActivity : AppCompatActivity() {
         binding.groupJoinCode.setOnClickListener {
             showQrCodeDialog(groupId!!)
         }
+        loadReservations()
+    }
 
+    private fun loadReservations() {
+        Reservation.getReservationsForGroup(groupId!!) {
+            val pendingReservations = arrayListOf<String>()
+            val pendingLayoutManager = LinearLayoutManager(this)
+            val pendingAdapter = ReservationAdapter(pendingReservations, this)
+            val pendingRecycler = binding.groupInfoPendingReservationsRecycler
+            pendingRecycler.layoutManager = pendingLayoutManager
+            pendingRecycler.adapter = pendingAdapter
+            val acceptedReservations = arrayListOf<String>()
+            val acceptedLayoutManager = LinearLayoutManager(this)
+            val acceptedAdapter = ReservationAdapter(acceptedReservations,this)
+            val acceptedRecycler = binding.groupInfoAcceptedReservationsRecycler
+            acceptedRecycler.layoutManager = acceptedLayoutManager
+            acceptedRecycler.adapter = acceptedAdapter
+            val rejectedReservations = arrayListOf<String>()
+            val rejectedAdapter = ReservationAdapter(rejectedReservations,this)
+            val rejectedRecycler = binding.groupInfoRejectedRecycler
+            val rejectedLayoutManager = LinearLayoutManager(this)
+            rejectedRecycler.layoutManager = rejectedLayoutManager
+            rejectedRecycler.adapter = rejectedAdapter
+
+            for (id in it!!) {
+                var res : Reservation
+                Reservation.getReservationById(id) {
+                    res = it!!
+                    when (res.reservationState) {
+                        ReservationState.PENDING -> {
+                            pendingReservations.add(id)
+                            pendingAdapter.notifyDataSetChanged()
+                        }
+                        ReservationState.ACCEPTED -> {
+                            acceptedReservations.add(id)
+                            acceptedAdapter.notifyDataSetChanged()
+                        }
+                        ReservationState.REJECTED -> {
+                            rejectedReservations.add(id)
+                            rejectedAdapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun showQrCodeDialog(groupId: String) {

@@ -252,8 +252,8 @@ class CampsiteDetailsActivity : AppCompatActivity() {
                             visitors,
                             ReservationState.PENDING
                         )
-                        val ref = FirebaseDatabase.getInstance().getReference("campsites/$campsiteId/reservationRequests")
-                        ref.push().setValue(request).addOnSuccessListener {
+                        val ref = FirebaseDatabase.getInstance().getReference("reservations").push()
+                        ref.setValue(request).addOnSuccessListener {
                             // Once the object is pushed to the database, display a success message
                         Toast.makeText(this,"Successfully sent reservation!",Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
