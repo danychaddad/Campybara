@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 
 class SearchFragment : Fragment() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -29,13 +31,28 @@ class SearchFragment : Fragment() {
         val spacingHeight = resources.getDimensionPixelSize(R.dimen.vertical_spacing_height)
         val verticalSpaceItemDecoration = VerticalSpaceItemDecoration(spacingHeight)
         val recyclerView = view.findViewById<RecyclerView>(R.id.searchRecyclerView)
+        val searchView = view.findViewById<SearchView>(R.id.searchView)
         recyclerView.addItemDecoration(verticalSpaceItemDecoration)
         val campsiteIdList = arrayListOf<String>()
+        var searchAdapter : SearchAdapter
         Campsite.getCampsiteIds(campsiteIdList) {
-            val myAdapter = SearchAdapter(it!!, requireContext())
-            recyclerView.adapter = myAdapter
+            searchAdapter = SearchAdapter(it!!, requireContext())
+            recyclerView.adapter = searchAdapter
             recyclerView.layoutManager = LinearLayoutManager(context)
         }
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                // Hide the keyboard when the user submits their search query
+                searchView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+
+                (recyclerView.adapter as SearchAdapter).filterCampsiteList(newText.orEmpty())
+                return true
+            }
+        })
     }
 }
 

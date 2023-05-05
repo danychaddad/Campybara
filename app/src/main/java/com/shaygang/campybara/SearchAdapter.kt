@@ -16,8 +16,10 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.location.LocationServices
 import kotlin.math.*
 
-class SearchAdapter(private val campsiteIds : List<String>, private val context : Context) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+class SearchAdapter(private var campsiteIds : ArrayList<String>, private val context : Context) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
+    private val initialCampsiteList : ArrayList<String> = campsiteIds
     // Define a ViewHolder class to hold the views for each item
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameTextView: TextView = view.findViewById(R.id.searchCampsiteName)
         val locationTextView: TextView = view.findViewById(R.id.searchDistanceTxt)
@@ -25,6 +27,23 @@ class SearchAdapter(private val campsiteIds : List<String>, private val context 
         val capacityTextView: TextView = view.findViewById(R.id.requestCapacityText)
     }
 
+    fun setCampsites(campsites: ArrayList<String>) {
+        this.campsiteIds = campsites
+        notifyDataSetChanged()
+    }
+
+    fun filterCampsiteList(query: String) {
+        var filteredCampsiteIds = arrayListOf<String>()
+        for (id in initialCampsiteList) {
+            Campsite.getCampsiteFromId(id) {
+                if (it!!.name.startsWith(query, true)) {
+                    filteredCampsiteIds.add(id)
+                }
+                setCampsites(filteredCampsiteIds)
+            }
+            notifyDataSetChanged()
+        }
+    }
     // Inflate the item layout and return a ViewHolder object
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.search_item, parent, false)
