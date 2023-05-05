@@ -29,51 +29,51 @@
             android:value="AIzaSyBkZYASFFCAhslQ8JBCeL3cEyloH1sd7BM" />
 
         <activity
-            android:name=".WriteReviewActivity"
+            android:name=".Activity.WriteReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".ReviewActivity"
+            android:name=".Activity.ReviewActivity"
             android:exported="false" />
         <activity
-            android:name=".ApproveOwnersActivity"
+            android:name=".Activity.ApproveOwnersActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".CampsiteDetailsActivity"
+            android:name=".Activity.CampsiteDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateCampsiteActivity"
+            android:name=".Activity.CreateCampsiteActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".CreateGroupActivity"
+            android:name=".Activity.CreateGroupActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".ChatActivity"
+            android:name=".Activity.ChatActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".GroupActivity"
+            android:name=".Activity.GroupActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".SignInActivity"
+            android:name=".Activity.SignInActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -83,7 +83,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignUpActivity"
+            android:name=".Activity.SignUpActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
