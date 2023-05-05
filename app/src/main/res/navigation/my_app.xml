@@ -27,7 +27,7 @@
         tools:layout="@layout/fragment_reservations" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.shaygang.campybara.ProfileFragment"
+        android:name="com.shaygang.campybara.Fragment.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>
