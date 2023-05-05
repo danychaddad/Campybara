@@ -59,7 +59,7 @@ class SignUpActivity : AppCompatActivity() {
                 add(Calendar.YEAR, -13)
             }.timeInMillis
 
-            var dialog = DatePickerDialog(this, datePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+            val dialog = DatePickerDialog(this, datePicker, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                     myCalendar.get(Calendar.DAY_OF_MONTH))
             dialog.datePicker.maxDate = maxDate
             dialog.show()
@@ -114,6 +114,27 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this, "Password is not matching", Toast.LENGTH_SHORT).show()
             }
         } else {
+            if (firstName.isEmpty()) {
+                binding.firstName.error = "Field cannot be empty"
+            }
+            if (lastName.isEmpty()) {
+                binding.lastName.error = "Field cannot be empty"
+            }
+            if (phoneNb.isEmpty()) {
+                binding.phoneNumber.error = "Field cannot be empty"
+            }
+            if (dateOfBirth.isEmpty()) {
+                binding.dateOfBirth.error = "Field cannot be empty"
+            }
+            if (email.isEmpty()) {
+                binding.emailEt.error = "Field cannot be empty"
+            }
+            if (pass.isEmpty()) {
+                binding.passET.error = "Field cannot be empty"
+            }
+            if (confirmPass.isEmpty()) {
+                binding.confirmPassEt.error = "Field cannot be empty"
+            }
             Toast.makeText(this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT).show()
         }
     }
