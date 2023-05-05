@@ -20,6 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Campybara"
         tools:targetApi="31">
+        <activity
+            android:name=".ApproveReservationsActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBkZYASFFCAhslQ8JBCeL3cEyloH1sd7BM" />
@@ -29,7 +33,7 @@
             android:exported="false" />
         <activity
             android:name=".ReviewActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ApproveOwnersActivity"
             android:exported="false">

@@ -74,10 +74,10 @@ class OwnerRequestItem(val uid : String, val context: Context): Item<GroupieView
 
             val ownerPic = it.child("profileImageUrl").value.toString()
 
-            Picasso.get().load(ownerPic).into(viewHolder.itemView.findViewById<ImageView>(R.id.ownerRequestImage))
-            viewHolder.itemView.findViewById<TextView>(R.id.ownerRequestName).text = "$ownerName"
+            Picasso.get().load(ownerPic).into(viewHolder.itemView.findViewById<ImageView>(R.id.requestGroupImage))
+            viewHolder.itemView.findViewById<TextView>(R.id.requestGroupName).text = "$ownerName"
 
-            viewHolder.itemView.findViewById<ImageButton>(R.id.confirmOwnerRequest).setOnClickListener {
+            viewHolder.itemView.findViewById<ImageButton>(R.id.confirmReservation).setOnClickListener {
                 val dialogBuilder = AlertDialog.Builder(context)
                 dialogBuilder.setMessage("Are you sure you want to accept this request?")
                     .setCancelable(false)
@@ -106,7 +106,7 @@ class OwnerRequestItem(val uid : String, val context: Context): Item<GroupieView
                 alert.show()
             }
 
-            viewHolder.itemView.findViewById<ImageButton>(R.id.rejectOwnerRequest).setOnClickListener {
+            viewHolder.itemView.findViewById<ImageButton>(R.id.rejectReservation).setOnClickListener {
 
                 val dialogBuilder = AlertDialog.Builder(context)
                 dialogBuilder.setMessage("Are you sure you want to reject this request?")

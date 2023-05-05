@@ -14,7 +14,7 @@
 
 
         <TextView
-            android:id="@+id/ownerRequestName"
+            android:id="@+id/requestGroupName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -23,11 +23,11 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/ownerRequestImage"
+            app:layout_constraintStart_toEndOf="@+id/requestGroupImage"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/ownerRequestImage"
+            android:id="@+id/requestGroupImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:adjustViewBounds="true"
@@ -48,25 +48,22 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/confirmOwnerRequest"
+                android:id="@+id/rejectReservation"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/circular_button_bg_danger"
+                android:backgroundTint="#F15656"
+                android:src="@drawable/baseline_do_not_disturb_24" />
+
+            <ImageButton
+                android:id="@+id/confirmReservation"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/circular_button_bg_primary"
                 android:src="@drawable/baseline_check_24" />
 
         </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/rejectOwnerRequest"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/circular_button_bg_danger"
-            android:src="@drawable/baseline_do_not_disturb_24"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-            app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout2"
-            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

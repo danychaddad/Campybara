@@ -3,48 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
-    app:cardCornerRadius="5dp">
+    android:layout_height="100dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="5dp"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/requestGroupImage"
-            android:layout_width="150dp"
-            android:layout_height="90dp"
-            android:adjustViewBounds="true"
-            android:cropToPadding="false"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/campy" />
 
         <TextView
             android:id="@+id/requestGroupName"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="Campsite Name"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:text="Group Name"
             android:textColor="#000000"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/requestGroupImage"
-            app:layout_constraintEnd_toStartOf="@+id/capacityLyt"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/requestGroupImage"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/requestGroupImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/capacityLyt"
             android:layout_width="60dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_corner_4dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:background="@drawable/rounded_corner_10dp"
             android:backgroundTint="#9700DDFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintBottom_toBottomOf="@+id/requestGroupName"
+            app:layout_constraintStart_toEndOf="@+id/requestGroupName"
+            app:layout_constraintTop_toTopOf="@+id/requestGroupName">
 
             <TextView
                 android:id="@+id/requestCapacityText"
@@ -73,16 +77,45 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/rejectReservation"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/circular_button_bg_danger"
+                android:backgroundTint="#F15656"
+                android:src="@drawable/baseline_do_not_disturb_24" />
+
+            <ImageButton
+                android:id="@+id/confirmReservation"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/circular_button_bg_primary"
+                android:src="@drawable/baseline_check_24" />
+
+        </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
-            android:layout_width="150dp"
-            android:layout_height="70dp"
+            android:layout_width="136dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="-6dp"
             android:background="@drawable/rounded_corner_10dp"
             android:backgroundTint="@color/teal_200"
-            app:layout_constraintBottom_toBottomOf="@+id/requestGroupImage"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/requestGroupImage"
-            app:layout_constraintTop_toTopOf="@+id/requestGroupImage">
+            android:scaleX=".9"
+            android:scaleY=".9"
+            app:layout_constraintStart_toStartOf="@+id/requestGroupName"
+            app:layout_constraintTop_toBottomOf="@+id/requestGroupName">
 
             <ImageView
                 android:id="@+id/calendarIcon"
@@ -129,5 +162,7 @@
                 app:layout_constraintStart_toStartOf="@+id/requestFromDate"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

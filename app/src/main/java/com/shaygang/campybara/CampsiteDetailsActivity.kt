@@ -78,9 +78,21 @@ class CampsiteDetailsActivity : AppCompatActivity() {
             fetchUser(campsiteOwnerUid)
         }
         loadMap()
-        binding.reserveCampsiteBtn.setOnClickListener {
-            reserveCampsiteDialog()
+        if (campsiteOwnerUid == FirebaseAuth.getInstance().currentUser?.uid) {
+            binding.reserveCampsiteBtn.setOnClickListener {
+                viewPendingReservations()
+            }
+        } else {
+            binding.reserveCampsiteBtn.setOnClickListener {
+                reserveCampsiteDialog()
+            }
         }
+    }
+
+    private fun viewPendingReservations() {
+        val intent = Intent(this, ApproveReservationsActivity::class.java)
+        intent.putExtra("campsiteId", campsiteId)
+        startActivity(intent)
     }
 
     private fun removeCampsiteFromFavorites() {

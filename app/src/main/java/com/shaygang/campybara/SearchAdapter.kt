@@ -22,7 +22,7 @@ class SearchAdapter(private val campsiteIds : List<String>, private val context 
         val nameTextView: TextView = view.findViewById(R.id.searchCampsiteName)
         val locationTextView: TextView = view.findViewById(R.id.searchDistanceTxt)
         val imageView: ImageView = view.findViewById(R.id.searchCampsiteImage)
-        val capacityTextView: TextView = view.findViewById(R.id.reservationCapacityText)
+        val capacityTextView: TextView = view.findViewById(R.id.requestCapacityText)
     }
 
     // Inflate the item layout and return a ViewHolder object
