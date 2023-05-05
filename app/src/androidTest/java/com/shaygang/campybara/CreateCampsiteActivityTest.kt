@@ -1,8 +1,6 @@
 package com.shaygang.campybara
 
-import android.view.WindowManager
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Root
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
@@ -17,7 +15,6 @@ import com.shaygang.campybara.Activity.CreateCampsiteActivity
 import org.hamcrest.Matchers.not
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.Description
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)

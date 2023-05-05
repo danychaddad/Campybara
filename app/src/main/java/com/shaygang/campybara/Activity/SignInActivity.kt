@@ -75,8 +75,12 @@ class SignInActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                Toast.makeText(this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT).show()
-
+                if (email.isEmpty()) {
+                    binding.emailEt.error = "Field cannot be empty"
+                }
+                if (pass.isEmpty()) {
+                    binding.passET.error = "Field cannot be empty"
+                }
             }
         }
         binding.resetPassBtn.setOnClickListener {
