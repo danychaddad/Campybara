@@ -26,16 +26,6 @@
             app:layout_constraintStart_toEndOf="@+id/searchCampsiteImage"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/searchCampsiteDesc"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Campsite Descrption"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/capacityLyt"
-            app:layout_constraintStart_toStartOf="@+id/searchCampsiteName"
-            app:layout_constraintTop_toBottomOf="@+id/searchCampsiteName" />
-
         <ImageView
             android:id="@+id/searchCampsiteImage"
             android:layout_width="100dp"

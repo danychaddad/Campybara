@@ -1,13 +1,21 @@
 package com.shaygang.campybara
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -16,10 +24,12 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.shaygang.campybara.Activity.ApproveOwnersActivity
+import com.shaygang.campybara.Activity.CreateCampsiteActivity
 import com.shaygang.campybara.Activity.SignInActivity
 import com.shaygang.campybara.Adapter.ViewPagerAdapter
 import com.shaygang.campybara.Dialog.AddAdminDialog
 import com.shaygang.campybara.Dialog.ApplyOwnerDialog
+import com.shaygang.campybara.Fragment.MapsFragment
 import com.shaygang.campybara.Fragment.ProfileFragment
 import java.time.LocalDate
 import java.time.Period
@@ -107,9 +117,44 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun checkGPS() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                MapsFragment.LOCATION_REQUEST_CODE
+            )
+
+        } else {
+            // Check if GPS is enabled
+            val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                // GPS is not enabled, show a dialog to ask the user to enable it
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Enable GPS")
+                    .setMessage("Please enable GPS.")
+                    .setPositiveButton("OK") { _, _ ->
+                        // Open the GPS settings screen
+                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                        startActivity(intent)
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ ->
+                        dialog.dismiss()
+                    }
+                val dialog = builder.create()
+                dialog.show()
+
+            } else {
+
+            }
+        }
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
+        checkGPS()
+
         user = FirebaseAuth.getInstance().currentUser!!
         databaseRef = FirebaseDatabase.getInstance().getReference("users").child(user.uid)
         if (firstName == null || lastName == null || email == null || phoneNb == null || dateOfBirth == null || profileImageUrl == null) {
