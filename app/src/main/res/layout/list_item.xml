@@ -27,23 +27,25 @@
             android:layout_height="40dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:fontFamily="sans-serif-black"
+            android:fontFamily="sans-serif-medium"
             android:gravity="center_vertical"
-            android:text="@string/el_maisone_del_capy"
+            android:text="@string/loading"
+            android:textAlignment="center"
             android:textColor="#000000"
-            android:textSize="24sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/campsiteImage"
             app:layout_constraintTop_toBottomOf="@+id/campsiteImage" />
 
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/listItemRating"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_width="75dp"
+            android:layout_height="36dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/rounded_corner_4dp"
+            android:background="@drawable/rounded_corner_7dp"
             android:backgroundTint="#A400B040"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/campsiteName"
@@ -74,6 +76,86 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/baseline_star_24" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/capacityLyt"
+            android:layout_width="75dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="84dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/rounded_corner_7dp"
+            android:backgroundTint="#9700DDFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/campsiteName"
+            app:layout_constraintTop_toBottomOf="@+id/campsiteName"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/requestCapacityText"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="55"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/reservationCapacityIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/reservationCapacityIcon"
+                app:layout_constraintTop_toTopOf="@+id/reservationCapacityIcon" />
+
+            <ImageView
+                android:id="@+id/reservationCapacityIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_person_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/distanceLyt"
+            android:layout_width="75dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_corner_7dp"
+            android:backgroundTint="#A400B040"
+            app:layout_constraintEnd_toEndOf="@+id/campsiteName"
+            app:layout_constraintTop_toTopOf="@+id/campsiteImage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/searchDistanceTxt"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="center_vertical"
+                android:text="25.7 km"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/searchDistanceIcon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/searchDistanceIcon"
+                app:layout_constraintTop_toTopOf="@+id/searchDistanceIcon" />
+
+            <ImageView
+                android:id="@+id/searchDistanceIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_pin_drop_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
